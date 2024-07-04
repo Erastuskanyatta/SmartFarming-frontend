@@ -26,28 +26,36 @@ const SignUp = () => {
         navigate('/login');
     }
     const handleRegisterSubmit = async (e) => {
-
         e.preventDefault();
-        
+
         setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/registration', {
+           const response = await axios.post('http://localhost:8080/api/v1/register', {
                 username,
                 email,
                 password,
                 confirmPassword,
                 phoneNumber
+            }, {
+                headers: {
+                    'Authorization': 'Bearer ',
+                    'Content-Type': 'application/json'
+                }
             });
 
             if (response.status === 201) {
                 setMessage('Registered successfully..');
+                
+            } else if (response.status === 409) {
+                console.log(response.message);
+                setMessage("dublicate")
             } else {
-                setMessage('Something went wrong...');
+                setMessage('Registration failed.')
             }
 
-        } catch (error ) {
-            setMessage('An error occured');
+        } catch (error) {
+            setMessage("An Error Accured while registering");
         } finally {
             setLoading(false)
         }
@@ -61,7 +69,8 @@ const SignUp = () => {
                     <div className="text">Sign Up</div>
                     <div className="underline"></div>
                 </div>
-                <div className='notificationMessage'> {message && <p>{message}</p>}</div>
+                <div className='notificationMessage'>
+                    {message && <p>{message}</p>}</div>
                 <form onSubmit={handleRegisterSubmit}>
                     <div className="inputs">
                         <div className="input">
@@ -111,7 +120,7 @@ const SignUp = () => {
 
                         <div className="submit gray" onClick={handleNavigation}>Login</div>
                     </div>
-                
+
                 </form>
             </div>
         </div>
