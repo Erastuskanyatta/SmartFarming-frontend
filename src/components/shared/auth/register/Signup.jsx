@@ -1,9 +1,8 @@
 import React from 'react';
-import '../../LoginSignup.css';
+import './Signup.css';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 
 import email_icon from '../../../assets/email.png';
 import password_icon from '../../../assets/password.png';
@@ -30,8 +29,10 @@ const SignUp = () => {
 
         setLoading(true);
 
+        const response = "";
+
         try {
-           const response = await axios.post('http://localhost:8080/api/v1/register', {
+            response = await axios.post('http://localhost:8080/api/v1/register', {
                 username,
                 email,
                 password,
@@ -45,17 +46,21 @@ const SignUp = () => {
             });
 
             if (response.status === 201) {
-                setMessage('Registered successfully..');
-                
-            } else if (response.status === 409) {
-                console.log(response.message);
-                setMessage("dublicate")
+                setMessage('Registered successfully. Please enter the code sent to your email to verify your accout.');
+                setTimeout(() => {
+                    navigate('/registerComplete');
+
+                }, 2000);
             } else {
                 setMessage('Registration failed.')
             }
 
         } catch (error) {
-            setMessage("An Error Accured while registering");
+            if (error.response && error.response.data && error.response.data.message) {
+                setMessage(error.response.data.message);
+            } else {
+                setMessage('An error occurred while registering.');
+            }
         } finally {
             setLoading(false)
         }
@@ -126,5 +131,4 @@ const SignUp = () => {
         </div>
     );
 }
-
 export default SignUp

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../LoginSignup.css';
+import './Login.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
@@ -23,7 +23,7 @@ const Login = () => {
     }
 
     const handleResetPassword = () => {
-        navigate('/resetPassword')
+        navigate('/forgetPassword')
     }
 
     const headers = new Headers();
@@ -56,16 +56,18 @@ const Login = () => {
             }
 
         } catch (error) {
-            console.log("Error:", error);
-            setMessage("An error occured while logging in");
-
+            if (error.response && error.response.data && error.response.data.message) {
+                setMessage(error.response.data.message)
+            } else {
+                setMessage("An error occured while logging in");
+            }
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <div className="card">
+        <div className="login-card">
             <div className='container'>
                 <div className="header">
                     <div className="text">{action}</div>

@@ -5,7 +5,9 @@ import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/shared/auth/login/Login';
 import Signup from './components/shared/auth/register/Signup'
-import ResetPassword from './components/shared/auth/forgotPassword/ForgetPassword'
+import ForgetPassword from './components/shared/auth/forgotPassword/ForgetPassword'
+import ResetPassword from './components/shared/auth/resetPassword/ResetPassword';
+import VerifyEmail from './components/shared/auth/verifyEmail/VerifyEmail'
 
 
 // function App(){
@@ -25,7 +27,9 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forgetPassword" element={<ForgetPassword />}/>
         <Route path="/resetPassword" element={<ResetPassword />}/>
+        <Route path="/verifyEmail" element={<VerifyEmail />}/>
       </Routes>
     </Router>
     </>
