@@ -32,7 +32,7 @@ const ResetPassword = () => {
             });
 
             if (response === 200) {
-                setMessage('Password reset Successful. Redirecting To Login page...' + '🚀')
+                setMessage('Password reset Successful. Redirecting To Login page.')
                 setTimeout(() => {
                     navigate('/login');
 

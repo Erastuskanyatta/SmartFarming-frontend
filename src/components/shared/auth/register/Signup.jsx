@@ -8,7 +8,6 @@ import email_icon from '../../../assets/email.png';
 import password_icon from '../../../assets/password.png';
 import avatar_icon from '../../../assets/person.png'
 
-
 const SignUp = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -16,8 +15,7 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -27,7 +25,7 @@ const SignUp = () => {
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
 
-        setLoading(true);
+        setIsLoading(true);
 
         const response = "";
 
@@ -62,7 +60,7 @@ const SignUp = () => {
                 setMessage('An error occurred while registering.');
             }
         } finally {
-            setLoading(false)
+            setIsLoading(false)
         }
 
     }
@@ -119,8 +117,8 @@ const SignUp = () => {
                     </div>
 
                     <div className="submit-container">
-                        <button className='submit' type='submit' disabled={loading}>
-                            {loading ? "Please wait..." : 'Sign Up'}
+                        <button className='submit' type='submit' disabled={isLoading}>
+                            {isLoading ? "Please wait..." : 'Sign Up'}
                         </button>
 
                         <div className="submit gray" onClick={handleNavigation}>Login</div>

@@ -1,22 +1,28 @@
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import './VerifyEmail.css';
-import email_icon from '../../../assets/email.png';
+
 import axios from 'axios';
 
+import './VerifyUser.css';
 
-const VerifyEmail = () => {
+import email_icon from '../../../assets/email.png';
+
+
+const VerifyUser = () => {
     const [code, setCode] = useState('');
     const [message, setMessage] = useState('');
     const [IsLoading, setIsLoading] = useState(false);
-
 
     const navigate = useNavigate();
 
     const handleResetEmailVerificationCode = async (e) => {
 
         navigate('/login')
+    }
+
+    const handleResendCode = async () => {
+
     }
 
     const handleEmailVerificationCode = async (e) => {
@@ -57,7 +63,7 @@ const VerifyEmail = () => {
         <div className="forgetPassword-card">
             <div className='container'>
                 <div className='resetPassword'>
-                    <p>Enter the 6-digit code.</p>
+                    <p>Confirm your email.</p>
                     <p>Check "email here" for a verification code. Change(to forgot password)</p>
                 </div>
                 <div className='notificationMessage'>
@@ -76,11 +82,11 @@ const VerifyEmail = () => {
                         <button className='submit' type='submit' disabled={IsLoading}>
                             {IsLoading ? 'Please wait...' : 'Submit'}
                         </button>
-                        <div className="submit gray" onClick={handleResetEmailVerificationCode}>Resend code </div>
+                        <div className="submit gray" onClick={handleResendCode}>Resend code </div>
                     </div>
                 </form>
             </div>
         </div>
     );
 }
-export default VerifyEmail
+export default VerifyUser

@@ -1,19 +1,19 @@
 import React from 'react';
-import './Login.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+
 import axios from 'axios';
 
+import './Login.css';
 
 import avatar_icon from '../../../assets/person.png';
 import password_icon from '../../../assets/password.png';
-
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [action, setAction] = useState("Login");
 
     const navigate = useNavigate();
@@ -26,14 +26,11 @@ const Login = () => {
         navigate('/forgetPassword')
     }
 
-    const headers = new Headers();
-    headers.append('Authorization', 'Bearer');
-
     const handleOnLogin = async (e) => {
         console.log("some text here")
         e.preventDefault();
 
-        setLoading(true);
+        setIsLoading(true);
 
         try {
             const response = await axios.post('http://localhost:8080/api/v1/authenticate',
@@ -62,7 +59,7 @@ const Login = () => {
                 setMessage("An error occured while logging in");
             }
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     }
 
@@ -99,8 +96,8 @@ const Login = () => {
                         <div className="forgot-password">Forgot Password?  <span onClick={handleResetPassword}>Click me</span></div>
                     }
                     <div className="submit-container">
-                        <button className='submit' type='submit' disabled={loading}>
-                            {loading ? "Please wait..." : 'Login'}
+                        <button className='submit' type='submit' disabled={isLoading}>
+                            {isLoading ? "Please wait..." : 'Login'}
                         </button>
 
                         <div className="submit gray" onClick={handleSignUp}>Sign Up</div>

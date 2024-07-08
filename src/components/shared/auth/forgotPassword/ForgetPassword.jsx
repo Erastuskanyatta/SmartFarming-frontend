@@ -1,10 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import './ForgetPassword.css';
-import email_icon from '../../../assets/email.png';
+
 import axios from 'axios';
 
+import './ForgetPassword.css';
+
+import email_icon from '../../../assets/email.png';
 
 const ForgetPassword = () => {
     const [email, setEmail] = useState('');
