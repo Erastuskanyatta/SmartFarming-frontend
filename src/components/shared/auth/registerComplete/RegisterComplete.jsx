@@ -94,6 +94,7 @@ const RegisterComplete = () => {
             </div>
         </div>
     );
+
 }
 
-export default RegisterComplete;
+export default RegisterComplete

@@ -12,14 +12,9 @@ import email_icon from '../../../assets/email.png';
 const VerifyUser = () => {
     const [code, setCode] = useState('');
     const [message, setMessage] = useState('');
-    const [IsLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
-
-    const handleResetEmailVerificationCode = async (e) => {
-
-        navigate('/login')
-    }
 
     const handleResendCode = async () => {
 
@@ -79,8 +74,8 @@ const VerifyUser = () => {
                         </div>
                     </div>
                     <div className="submit-container">
-                        <button className='submit' type='submit' disabled={IsLoading}>
-                            {IsLoading ? 'Please wait...' : 'Submit'}
+                        <button className='submit' type='submit' disabled={isLoading}>
+                            {isLoading ? 'Please wait...' : 'Submit'}
                         </button>
                         <div className="submit gray" onClick={handleResendCode}>Resend code </div>
                     </div>
