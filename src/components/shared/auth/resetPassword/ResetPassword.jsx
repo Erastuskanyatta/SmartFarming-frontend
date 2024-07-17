@@ -4,14 +4,19 @@ import { useState } from 'react';
 
 import password_icon from '../../../assets/password.png';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const ResetPassword = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPasword] = useState('');
+    const [code, setCode] = useState('');
     const [message, setMessage] = useState('');
     const [IsLoading, setIsLoading] = useState(false);
+
+    const location = useLocation();
+
+    const email = location.state?.email || '';
 
     const navigate = useNavigate();
 
@@ -22,6 +27,8 @@ const ResetPassword = () => {
 
         try {
             const response = await axios.post('', {
+                email,
+                code,
                 password,
                 confirmPassword
             }, {
@@ -56,7 +63,7 @@ const ResetPassword = () => {
         <div className="resetPassword-card">
             <div className='container'>
                 <div className='resetPassword'>
-                    <p>Choose a new password</p>
+                    <p>Choose  {email} a new password</p>
                 </div>
                 <div className='notificationMessage'>
                     {message && <p>{message}</p>}</div>

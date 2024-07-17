@@ -8,3 +8,9 @@
     height:  490px;
     align-items: center
 }
+
+.stateValue{
+    color: red;
+    margin-left: 5px;
+    margin-right: 5px;
+}

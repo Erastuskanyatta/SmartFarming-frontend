@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import axios from 'axios';
 
@@ -8,11 +8,12 @@ import './VerifyUser.css';
 
 import email_icon from '../../../assets/email.png';
 
-
 const VerifyUser = () => {
     const [code, setCode] = useState('');
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const location = useLocation();
+    const email = location.state?.email || '';
 
     const navigate = useNavigate();
 
@@ -26,20 +27,25 @@ const VerifyUser = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('url', {
+            const response = await axios.post('http://localhost:8080/api/v1/verify-user', {
                 code,
+                email
             }, {
                 headers: {
                     "Authorization": "bearer ",
                     "Content-Type": "application/json"
                 }
             });
+            console.log(response)
+            if (response.status === 200) {
+                setMessage("Account verified. Redirecting to login page.");
+                setTimeout(() => {
+                    navigate('/login', { state: { email } });
 
-            if (response === 200) {
-                setMessage('Valid code ...')
+                }, 4000);
 
             } else {
-                setMessage('Invalid code...')
+                setMessage('Invalid code. Resend code.')
             }
 
         } catch (error) {
@@ -58,8 +64,8 @@ const VerifyUser = () => {
         <div className="forgetPassword-card">
             <div className='container'>
                 <div className='resetPassword'>
-                    <p>Confirm your email.</p>
-                    <p>Check "email here" for a verification code. Change(to forgot password)</p>
+                    <p>Verify your email account.</p>
+                    <p>Check <span className='stateValue'>{email}</span> for a verification code.</p>
                 </div>
                 <div className='notificationMessage'>
                     {message && <p>{message}</p>}</div>

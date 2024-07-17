@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { navigate, useNavigate } from 'react-router-dom'
 
 import axios from 'axios';
 
@@ -25,7 +25,7 @@ const ForgetPassword = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('', {
+            const response = await axios.post('http://localhost:8080/api/v1/forgot-password', {
                 email
             }, {
                 headers: {
@@ -34,8 +34,12 @@ const ForgetPassword = () => {
                 }
             });
 
-            if (response === 200) {
-                setMessage('Password reset Successful.')
+            if (response.status === 204) {
+                setMessage("A verification email have been sent to: " + email);
+                setTimeout(() => {
+                    navigate('/resetPassword', { state: { email } });
+
+                }, 4000);
 
             } else {
                 setMessage('Password Reset failed. Use a different email.');

@@ -9,7 +9,6 @@ import avatar_email from '../../../assets/email.png';
 
 const RegisterComplete = () => {
     const [email, setEmail] = useState('');
-    const [code, setCode] = useState('');
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -26,10 +25,9 @@ const RegisterComplete = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://',
+            const response = await axios.post('http://localhost:8080/api/v1/register-complete',
                 {
-                    email,
-                    code
+                    email
                 }, {
                 headers: {
                     'Authorization': 'Bearer',
@@ -37,19 +35,21 @@ const RegisterComplete = () => {
                 }
             });
             if (response.status === 200) {
-                setMessage("Registration Successful..");
+                setMessage("Code sent successfully. Redirecting to verify user page.");
+                setTimeout(() => {
+                    navigate('/verifyUser', { state: { email } });
 
-                navigate('/login');
+                }, 4000);
 
             } else {
-                setMessage("Registration failed.")
+                setMessage("Code not sent.")
             }
 
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {
                 setMessage(error.response.data.message)
             } else {
-                setMessage("An error occured while registering");
+                setMessage("An error occured while sending the code");
             }
         } finally {
             setIsLoading(false);
@@ -61,7 +61,7 @@ const RegisterComplete = () => {
             <div className='container'>
                 <div className='resetPassword'>
                     <p>Verify your account.</p>
-                    <p>Enter the 6-digit code to verify your account.</p>
+                    <p>Send a code to your email to verify your account.</p>
                 </div>
                 <div className='notificationMessage'>
                     {message && <p>{message}</p>}
@@ -75,18 +75,9 @@ const RegisterComplete = () => {
                                 placeholder="email" />
                         </div>
                     </div>
-                    <div className="inputs">
-                        <div className="input">
-                            <span className='icon'><img alt="" /> </span>
-                            <input type="code"
-                                value={code}
-                                onChange={e => setCode(e.target.value)}
-                                placeholder="code" />
-                        </div>
-                    </div>
                     <div className="submit-container">
                         <button className='submit' type='submit' disabled={isLoading}>
-                            {isLoading ? "Please wait..." : 'Login'}
+                            {isLoading ? "Please wait..." : 'Send'}
                         </button>
                         <div className="submit gray" onClick={handleResendCode}>Resend code </div>
                     </div>
