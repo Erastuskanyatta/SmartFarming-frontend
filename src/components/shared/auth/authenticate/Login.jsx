@@ -6,11 +6,11 @@ import axios from 'axios';
 
 import './Login.css';
 
-import avatar_icon from '../../../assets/person.png';
+import email_icon from '../../../assets/email.png';
 import password_icon from '../../../assets/password.png';
 
 const Login = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false)
@@ -27,7 +27,6 @@ const Login = () => {
     }
 
     const handleOnLogin = async (e) => {
-        console.log("some text here")
         e.preventDefault();
 
         setIsLoading(true);
@@ -35,7 +34,7 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:8080/api/v1/authenticate',
                 {
-                    username,
+                    email,
                     password
                 }, {
                 headers: {
@@ -44,12 +43,14 @@ const Login = () => {
                 }
             });
             if (response.status === 200) {
-                setMessage("Login Successful..");
+                setMessage("Login Successful.");
+                setTimeout(() => {
+                    navigate('/resetPassword');
 
-                navigate('/resetPassword');
+                }, 4000);
 
             } else {
-                setMessage("Login failed.")
+                setMessage('Login Failed')
             }
 
         } catch (error) {
@@ -76,10 +77,10 @@ const Login = () => {
                 <form onSubmit={handleOnLogin}>
                     <div className="inputs">
                         <div className="input">
-                            <img src={avatar_icon} alt="" />
-                            <input type="text" value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                placeholder="username" />
+                            <img src={email_icon} alt="" />
+                            <input type="text" value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="email" />
                         </div>
                     </div>
                     <div className="inputs">

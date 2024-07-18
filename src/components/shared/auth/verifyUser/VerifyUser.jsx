@@ -36,7 +36,7 @@ const VerifyUser = () => {
                     "Content-Type": "application/json"
                 }
             });
-            console.log(response)
+
             if (response.status === 200) {
                 setMessage("Account verified. Redirecting to login page.");
                 setTimeout(() => {

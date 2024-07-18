@@ -26,7 +26,7 @@ const ResetPassword = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('', {
+            const response = await axios.post('http://localhost:8080/api/v1/reset-password', {
                 email,
                 code,
                 password,
@@ -38,15 +38,15 @@ const ResetPassword = () => {
                 }
             });
 
-            if (response === 200) {
-                setMessage('Password reset Successful. Redirecting To Login page.')
+            if (response.status === 204) {
+                setMessage("Passsword Reset Successful. Please Login with the new password");
                 setTimeout(() => {
                     navigate('/login');
 
-                }, 2000);
+                }, 4000);
 
             } else {
-                setMessage('Password Reset failed.');
+                setMessage('Password reset Failed.')
             }
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {
@@ -63,11 +63,20 @@ const ResetPassword = () => {
         <div className="resetPassword-card">
             <div className='container'>
                 <div className='resetPassword'>
-                    <p>Choose  {email} a new password</p>
+                    <p>Choose  a new password</p>
                 </div>
                 <div className='notificationMessage'>
                     {message && <p>{message}</p>}</div>
                 <form onSubmit={handleResetPassword}>
+                    <div className="inputs">
+                        <div className="input">
+                            <span className='icon'><img src={password_icon} alt="" /> </span>
+                            <input type="code"
+                                value={code}
+                                onChange={(e) => setCode(e.target.value)}
+                                placeholder="code" />
+                        </div>
+                    </div>
                     <div className="inputs">
                         <div className="input">
                             <span className='icon'><img src={password_icon} alt="" /> </span>
