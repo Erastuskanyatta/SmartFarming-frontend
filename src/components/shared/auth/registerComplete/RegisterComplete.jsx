@@ -6,7 +6,6 @@ import axios from 'axios';
 
 import avatar_email from '../../../assets/email.png';
 
-
 const RegisterComplete = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
@@ -14,10 +13,6 @@ const RegisterComplete = () => {
 
 
     const navigate = useNavigate();
-
-    const handleResendCode = async () => {
-
-    }
 
     const handleRegisterComplete = async (e) => {
         e.preventDefault();
@@ -79,7 +74,6 @@ const RegisterComplete = () => {
                         <button className='submit' type='submit' disabled={isLoading}>
                             {isLoading ? "Please wait..." : 'Send'}
                         </button>
-                        <div className="submit gray" onClick={handleResendCode}>Resend code </div>
                     </div>
                 </form>
             </div>

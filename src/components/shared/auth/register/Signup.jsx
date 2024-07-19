@@ -27,10 +27,8 @@ const SignUp = () => {
 
         setIsLoading(true);
 
-        const response = "";
-
         try {
-            response = await axios.post('http://localhost:8080/api/v1/register', {
+            const response = await axios.post('http://localhost:8080/api/v1/register', {
                 username,
                 email,
                 password,
@@ -44,18 +42,22 @@ const SignUp = () => {
             });
 
             if (response.status === 201) {
-                setMessage('Registered successfully. Please enter the code sent to your email to verify your accout.');
+                setMessage('Registered successfully. Please verify your account.');
                 setTimeout(() => {
                     navigate('/registerComplete');
 
-                }, 2000);
+                }, 5000);
             } else {
-                setMessage('Registration failed.')
+                setMessage('Registration failed Please Try again.')
             }
 
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {
                 setMessage(error.response.data.message);
+                setTimeout(() => {
+                    message('')
+
+                }, 5000);
             } else {
                 setMessage('An error occurred while registering.');
             }

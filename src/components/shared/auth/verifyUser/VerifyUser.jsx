@@ -17,8 +17,42 @@ const VerifyUser = () => {
 
     const navigate = useNavigate();
 
-    const handleResendCode = async () => {
+    const handleResendCode = async (e) => {
+        e.preventDefault();
 
+        setIsLoading(true);
+
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/resend-code', {
+                email
+            }, {
+                headers: {
+                    "Authorization": "bearer ",
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status === 200) {
+                setMessage("A code has been resent to: " + email);
+                setTimeout(() => {
+                    setMessage('');
+
+                }, 5000);
+            } else {
+                setMessage('Resend code failed. Use a different email.');
+                setTimeout(() => {
+                    setMessage('');
+
+                }, 5000);
+            }
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setMessage(error.response.data.message)
+            } else {
+                setMessage("Something is wrong. Try again.");
+            }
+
+        }
     }
 
     const handleEmailVerificationCode = async (e) => {
@@ -46,6 +80,10 @@ const VerifyUser = () => {
 
             } else {
                 setMessage('Invalid code. Resend code.')
+                setTimeout(() => {
+                    setMessage('');
+
+                }, 5000);
             }
 
         } catch (error) {
@@ -90,4 +128,5 @@ const VerifyUser = () => {
         </div>
     );
 }
+
 export default VerifyUser

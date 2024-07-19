@@ -16,6 +16,8 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [action, setAction] = useState("Login");
 
+    const baseUrl = 'http://localhost:8080';
+
     const navigate = useNavigate();
 
     const handleSignUp = () => {
@@ -32,7 +34,7 @@ const Login = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/authenticate',
+            const response = await axios.post(baseUrl + '/api/v1/authenticate',
                 {
                     email,
                     password
