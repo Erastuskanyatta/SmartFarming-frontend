@@ -1,14 +1,12 @@
 import React from 'react';
-import '../../LoginSignup.css';
+import './Signup.css';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 import email_icon from '../../../assets/email.png';
 import password_icon from '../../../assets/password.png';
 import avatar_icon from '../../../assets/person.png'
-
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
@@ -17,8 +15,7 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -26,30 +23,46 @@ const SignUp = () => {
         navigate('/login');
     }
     const handleRegisterSubmit = async (e) => {
-
         e.preventDefault();
-        
-        setLoading(true);
+
+        setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/registration', {
+            const response = await axios.post('http://localhost:8080/api/v1/register', {
                 username,
                 email,
                 password,
                 confirmPassword,
                 phoneNumber
+            }, {
+                headers: {
+                    'Authorization': 'Bearer ',
+                    'Content-Type': 'application/json'
+                }
             });
 
             if (response.status === 201) {
-                setMessage('Registered successfully..');
+                setMessage('Registered successfully. Please verify your account.');
+                setTimeout(() => {
+                    navigate('/registerComplete');
+
+                }, 5000);
             } else {
-                setMessage('Something went wrong...');
+                setMessage('Registration failed Please Try again.')
             }
 
-        } catch (error ) {
-            setMessage('An error occured');
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setMessage(error.response.data.message);
+                setTimeout(() => {
+                    message('')
+
+                }, 5000);
+            } else {
+                setMessage('An error occurred while registering.');
+            }
         } finally {
-            setLoading(false)
+            setIsLoading(false)
         }
 
     }
@@ -61,7 +74,8 @@ const SignUp = () => {
                     <div className="text">Sign Up</div>
                     <div className="underline"></div>
                 </div>
-                <div className='notificationMessage'> {message && <p>{message}</p>}</div>
+                <div className='notificationMessage'>
+                    {message && <p>{message}</p>}</div>
                 <form onSubmit={handleRegisterSubmit}>
                     <div className="inputs">
                         <div className="input">
@@ -105,17 +119,16 @@ const SignUp = () => {
                     </div>
 
                     <div className="submit-container">
-                        <button className='submit' type='submit' disabled={loading}>
-                            {loading ? "Please wait..." : 'Sign Up'}
+                        <button className='submit' type='submit' disabled={isLoading}>
+                            {isLoading ? "Please wait..." : 'Sign Up'}
                         </button>
 
                         <div className="submit gray" onClick={handleNavigation}>Login</div>
                     </div>
-                
+
                 </form>
             </div>
         </div>
     );
 }
-
 export default SignUp

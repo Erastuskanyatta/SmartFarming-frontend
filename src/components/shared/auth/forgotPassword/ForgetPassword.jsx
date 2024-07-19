@@ -1,13 +1,17 @@
 import React from 'react';
-import '../../LoginSignup.css';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { navigate, useNavigate } from 'react-router-dom'
+
+import axios from 'axios';
+
+import './ForgetPassword.css';
 
 import email_icon from '../../../assets/email.png';
 
-
 const ForgetPassword = () => {
-    const [action, setAction] = useState("Reset Password");
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    const [IsLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate();
 
@@ -15,26 +19,72 @@ const ForgetPassword = () => {
         navigate('/login')
     }
 
+    const handleVerificationCodeSubmit = async (e) => {
+        e.preventDefault();
+
+        setIsLoading(true);
+
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/forgot-password', {
+                email
+            }, {
+                headers: {
+                    "Authorization": "Bearer ",
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status === 204) {
+                setMessage("A verification email have been sent to: " + email);
+                setTimeout(() => {
+                    navigate('/resetPassword', { state: { email } });
+
+                }, 4000);
+
+            } else {
+                setMessage('Password Reset failed. Use a different email.');
+            }
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setMessage(error.response.data.message)
+            } else {
+                setMessage("Something is wrong. Try again.");
+            }
+
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
-        <div className="card">
+        <div className="forgetPassword-card">
             <div className='container'>
                 <div className="header">
-                    <div className="resetPasstext">{action}</div>
+                    <div className="resetPasstext">Forgot password</div>
                     <div className="underline"></div>
                 </div>
-                <div className='resetPassword'>
-                    <p>Please Provide your email:</p>
-                </div>
-                <div className="inputs">
-                    <div className="input">
-                        {<img src={email_icon} alt="" />}
-                        <input type="email" placeholder="email" />
+                <div className='notificationMessage'>
+                    {message && <p>{message}</p>}</div>
+                <form onSubmit={handleVerificationCodeSubmit}>
+                    <div className="inputs">
+                        <div className="input">
+                            {<img src={email_icon} alt="" />}
+                            <input type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="email" />
+                        </div>
                     </div>
-                </div>
-                <div className="submit-container">
-                    <div className="submit gray" >Send </div>
-                    <div className="submit gray" onClick={handleLoginNavigation}>Back to Login</div>
-                </div>
+                    <div className='resetPassword'>
+                        <p>We'll send a verification code to this email if it matches an existing account.</p>
+                    </div>
+                    <div className="submit-container">
+                        <button className='submit' type='submit' disabled={IsLoading}>
+                            {IsLoading ? 'Please wait..' : 'Next'}
+                        </button>
+                        <div className="submit gray" onClick={handleLoginNavigation}>Back to Login </div>
+                    </div>
+                </form>
             </div>
         </div>
     );
