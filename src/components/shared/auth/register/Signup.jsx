@@ -1,19 +1,15 @@
 import React from 'react';
-import './Signup.css';
-import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Signup.css';
+import apiService from '../../../../services/ApiService';
 
 import email_icon from '../../../assets/email.png';
 import password_icon from '../../../assets/password.png';
 import avatar_icon from '../../../assets/person.png'
 
 const SignUp = () => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [inputs, setInputs] = useState({})
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -22,48 +18,50 @@ const SignUp = () => {
     const handleNavigation = () => {
         navigate('/login');
     }
-    const handleRegisterSubmit = async (e) => {
-        e.preventDefault();
+
+    const handleInputs = async (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs({ ...inputs, [name]: value })
+    }
+    const handleRegisterSubmit = async (event) => {
+        event.preventDefault();
 
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/register', {
-                username,
-                email,
-                password,
-                confirmPassword,
-                phoneNumber
-            }, {
-                headers: {
-                    'Authorization': 'Bearer ',
-                    'Content-Type': 'application/json'
-                }
+            const response = await apiService.post(`${apiService.BASE_PATH}/register`, {
+                username: inputs.username,
+                email: inputs.email,
+                password: inputs.password,
+                confirmPassword: inputs.confirmPassword,
+                phoneNumber: inputs.phoneNumber
             });
 
             if (response.status === 201) {
                 setMessage('Registered successfully. Please verify your account.');
                 setTimeout(() => {
                     navigate('/registerComplete');
-
-                }, 5000);
+                }, 2000);
             } else {
-                setMessage('Registration failed Please Try again.')
+                setMessage('Registration failed. Please try again.');
             }
 
         } catch (error) {
-            if (error.response && error.response.data && error.response.data.message) {
-                setMessage(error.response.data.message);
+    
+            if (error.message && error.message && error.message) {
+                setMessage(error.message);
                 setTimeout(() => {
-                    message('')
-
+                    setMessage('');
                 }, 5000);
             } else {
+    
                 setMessage('An error occurred while registering.');
             }
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
+
 
     }
     return (
@@ -80,40 +78,40 @@ const SignUp = () => {
                     <div className="inputs">
                         <div className="input">
                             <img src={avatar_icon} alt="" />
-                            <input type="text" value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                            <input type="text" name="username" value={inputs.username || ''}
+                                onChange={handleInputs}
                                 placeholder="username" />
                         </div>
                     </div>
                     <div className="inputs">
                         <div className="input">
                             <img src={email_icon} alt="" />
-                            <input type="email" value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                            <input type="email" name='email' value={inputs.email || ''}
+                                onChange={handleInputs}
                                 placeholder="email" />
                         </div>
                     </div>
                     <div className="inputs">
                         <div className="input">
                             <img src={password_icon} alt="" />
-                            <input type="password" value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                            <input type="password" name='password' value={inputs.password || ''}
+                                onChange={handleInputs}
                                 placeholder="password" />
                         </div>
                     </div>
                     <div className="inputs">
                         <div className="input">
                             <img src={password_icon} alt="" />
-                            <input type="password" value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            <input type="password" name='confirmPassword' value={inputs.confirmPassword || ''}
+                                onChange={handleInputs}
                                 placeholder="confirmPassword" />
                         </div>
                     </div>
                     <div className="inputs">
                         <div className="input">
                             <img src={password_icon} alt="" />
-                            <input type="phone" value={phoneNumber}
-                                onChange={(e) => setPhoneNumber(e.target.value)}
+                            <input type="phone" name='phoneNumber' value={inputs.phoneNumber || ''}
+                                onChange={handleInputs}
                                 placeholder="phone" />
                         </div>
                     </div>
