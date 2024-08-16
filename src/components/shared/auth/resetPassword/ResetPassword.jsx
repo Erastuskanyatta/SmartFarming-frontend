@@ -1,24 +1,27 @@
 import React from 'react';
 import './ResetPassword.css';
 import { useState } from 'react';
+import apiService from '../../../../services/ApiService';
 
 import password_icon from '../../../assets/password.png';
-import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const ResetPassword = () => {
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPasword] = useState('');
-    const [code, setCode] = useState('');
     const [message, setMessage] = useState('');
+    const [inputs, setInputs] = useState({});
     const [IsLoading, setIsLoading] = useState(false);
 
     const location = useLocation();
-
-    const email = location.state?.email || '';
+    const email = location.state;
 
     const navigate = useNavigate();
+
+    const handleInputs = async (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs({ ...inputs, [name]: value })
+    }
 
     const handleResetPassword = async (e) => {
         e.preventDefault();
@@ -26,22 +29,17 @@ const ResetPassword = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/reset-password', {
+            const response = await apiService.post(`${apiService.BASE_PATH}/reset-password`, {
                 email,
-                code,
-                password,
-                confirmPassword
-            }, {
-                headers: {
-                    "Authorization": "Bearer ",
-                    "Content-Type": "application/json"
-                }
+                code: inputs.code,
+                password: inputs.password,
+                confirmPassword: inputs.confirmPassword
             });
 
             if (response.status === 204) {
                 setMessage("Passsword Reset Successful. Please Login with the new password");
                 setTimeout(() => {
-                    navigate('/login');
+                    navigate('/login', { state: email });
 
                 }, 4000);
 
@@ -63,7 +61,7 @@ const ResetPassword = () => {
         <div className="resetPassword-card">
             <div className='container'>
                 <div className='resetPassword'>
-                    <p>Choose  a new password</p>
+                    <p>Choose a new password</p>
                 </div>
                 <div className='notificationMessage'>
                     {message && <p>{message}</p>}</div>
@@ -71,27 +69,24 @@ const ResetPassword = () => {
                     <div className="inputs">
                         <div className="input">
                             <span className='icon'><img src={password_icon} alt="" /> </span>
-                            <input type="code"
-                                value={code}
-                                onChange={(e) => setCode(e.target.value)}
+                            <input type="code" name='code' value={inputs.code || ''}
+                                onChange={handleInputs}
                                 placeholder="code" />
                         </div>
                     </div>
                     <div className="inputs">
                         <div className="input">
                             <span className='icon'><img src={password_icon} alt="" /> </span>
-                            <input type="newPassword"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                            <input type="newPassword" name='password' value={inputs.password || ''}
+                                onChange={handleInputs}
                                 placeholder="newPassword" />
                         </div>
                     </div>
                     <div className="inputs">
                         <div className="input">
                             <span className='icon'><img src={password_icon} alt="" /> </span>
-                            <input type="confirmPassword"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPasword(e.target.value)}
+                            <input type="confirmPassword" name='confirmPassword' value={inputs.confirmPassword || ''}
+                                onChange={handleInputs}
                                 placeholder="confirmPassword" />
                         </div>
                     </div>

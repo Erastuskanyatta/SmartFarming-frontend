@@ -48,14 +48,14 @@ const SignUp = () => {
             }
 
         } catch (error) {
-    
+
             if (error.message && error.message && error.message) {
                 setMessage(error.message);
                 setTimeout(() => {
                     setMessage('');
                 }, 5000);
             } else {
-    
+
                 setMessage('An error occurred while registering.');
             }
         } finally {

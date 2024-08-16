@@ -1,19 +1,25 @@
 import React from 'react';
 import { useState } from 'react';
 import { navigate, useNavigate } from 'react-router-dom'
-
-import axios from 'axios';
+import apiService from '../../../../services/ApiService';
 
 import './ForgetPassword.css';
 
 import email_icon from '../../../assets/email.png';
 
 const ForgetPassword = () => {
-    const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const [inputs, setInputs] = useState({});
     const [IsLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate();
+
+    const handleInputs = async (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs({ ...inputs, [name]: value })
+    }
+
 
     const handleLoginNavigation = () => {
         navigate('/login')
@@ -25,19 +31,14 @@ const ForgetPassword = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/forgot-password', {
-                email
-            }, {
-                headers: {
-                    "Authorization": "Bearer ",
-                    "Content-Type": "application/json"
-                }
+            const response = await apiService.post(`${apiService.BASE_PATH}/forgot-password`, {
+                email: inputs.email
             });
 
             if (response.status === 204) {
-                setMessage("A verification email have been sent to: " + email);
+                setMessage("A verification email have been sent to: " + inputs.email);
                 setTimeout(() => {
-                    navigate('/resetPassword', { state: { email } });
+                    navigate('/resetPassword', { state: inputs.email });
 
                 }, 4000);
 
@@ -69,9 +70,8 @@ const ForgetPassword = () => {
                     <div className="inputs">
                         <div className="input">
                             {<img src={email_icon} alt="" />}
-                            <input type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                            <input type="email" name='email' value={inputs.email || ''}
+                                onChange={handleInputs}
                                 placeholder="email" />
                         </div>
                     </div>

@@ -1,21 +1,26 @@
 import React from 'react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
-
-import axios from 'axios';
+import apiService from '../../../../services/ApiService';
 
 import './VerifyUser.css';
 
 import email_icon from '../../../assets/email.png';
 
 const VerifyUser = () => {
-    const [code, setCode] = useState('');
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const location = useLocation();
-    const email = location.state?.email || '';
+    const [inputs, setInputs] = useState({});
+    const email = location.state;
 
     const navigate = useNavigate();
+
+    const handleInputs = async (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs({ ...inputs, [name]: value })
+    }
 
     const handleResendCode = async (e) => {
         e.preventDefault();
@@ -23,13 +28,8 @@ const VerifyUser = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/resend-code', {
+            const response = await apiService.post(`${apiService.BASE_PATH}/resend-code`, {
                 email
-            }, {
-                headers: {
-                    "Authorization": "bearer ",
-                    "Content-Type": "application/json"
-                }
             });
 
             if (response.status === 200) {
@@ -61,14 +61,9 @@ const VerifyUser = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/verify-user', {
-                code,
+            const response = await apiService.post(`${apiService.BASE_PATH}/verify-user`, {
+                code: inputs.code,
                 email
-            }, {
-                headers: {
-                    "Authorization": "bearer ",
-                    "Content-Type": "application/json"
-                }
             });
 
             if (response.status === 200) {
@@ -87,8 +82,8 @@ const VerifyUser = () => {
             }
 
         } catch (error) {
-            if (error.response && error.response.data && error.response.data.message) {
-                setMessage(error.response.data.message)
+            if (error.response && error.response.message && error.response.message) {
+                setMessage(error.response.message)
             } else {
                 setMessage("Something is wrong. Try again.");
             }
@@ -111,9 +106,8 @@ const VerifyUser = () => {
                     <div className="inputs">
                         <div className="input">
                             {<img src={email_icon} alt="" />}
-                            <input type="input"
-                                value={code}
-                                onChange={(e) => setCode(e.target.value)}
+                            <input type="input" name='code' value={inputs.code || ''}
+                                onChange={handleInputs}
                                 placeholder="Enter 6 digits" />
                         </div>
                     </div>

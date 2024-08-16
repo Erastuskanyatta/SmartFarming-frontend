@@ -2,48 +2,49 @@ import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import './RegisterComplete.css'
-import axios from 'axios';
+import apiService from '../../../../services/ApiService';
 
 import avatar_email from '../../../assets/email.png';
 
 const RegisterComplete = () => {
-    const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const [inputs, setInputs] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-
 
     const navigate = useNavigate();
 
+    const handleInputs = async (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs({ ...inputs, [name]: value })
+    }
     const handleRegisterComplete = async (e) => {
         e.preventDefault();
 
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/register-complete',
+            const response = await apiService.post(`${apiService.BASE_PATH}/register-complete`,
                 {
-                    email
-                }, {
-                headers: {
-                    'Authorization': 'Bearer',
-                    'Content-Type': 'application/json'
-                }
-            });
+                    email: inputs.email
+                });
+
             if (response.status === 200) {
                 setMessage("Code sent successfully. Redirecting to verify user page.");
                 setTimeout(() => {
-                    navigate('/verifyUser', { state: { email } });
+                    navigate('/verifyUser', { state: inputs.email });
 
                 }, 4000);
 
             } else {
-                setMessage("Code not sent.")
+                setMessage("Code not sent.Please try again.")
             }
 
         } catch (error) {
-            if (error.response && error.response.data && error.response.data.message) {
-                setMessage(error.response.data.message)
+            if (error.message && error.message && error.message) {
+                setMessage(error.message)
             } else {
+
                 setMessage("An error occured while sending the code");
             }
         } finally {
@@ -65,8 +66,8 @@ const RegisterComplete = () => {
                     <div className="inputs">
                         <div className="input">
                             <img src={avatar_email} alt="" />
-                            <input type="email" value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                            <input type="email" name='email' value={inputs.email || ''}
+                                onChange={handleInputs}
                                 placeholder="email" />
                         </div>
                     </div>
