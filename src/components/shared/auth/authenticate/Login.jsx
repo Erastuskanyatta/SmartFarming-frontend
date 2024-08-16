@@ -1,9 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { useLocation } from 'react-router-dom';
-import apiService from '../../../../services/ApiService';
 
+import apiService from '../../../../services/ApiService';
 import email_icon from '../../../assets/email.png';
 import password_icon from '../../../assets/password.png';
 
@@ -14,9 +13,6 @@ const Login = () => {
     const [inputs, setInputs] = useState({});
     const [isLoading, setIsLoading] = useState(false)
     const [action, setAction] = useState("Login");
-
-    const location = useLocation();
-    const email = location.state;
 
     const navigate = useNavigate();
 
@@ -57,8 +53,8 @@ const Login = () => {
             }
 
         } catch (error) {
-            if (error.response && error.response.data && error.response.data.message) {
-                setMessage(error.response.data.message)
+            if (error.data && error.data.message) {
+                setMessage(error.data.message)
             } else {
                 setMessage("An error occured while logging in");
             }

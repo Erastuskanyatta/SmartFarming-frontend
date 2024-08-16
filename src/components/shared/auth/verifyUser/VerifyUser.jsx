@@ -10,8 +10,8 @@ import email_icon from '../../../assets/email.png';
 const VerifyUser = () => {
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const location = useLocation();
     const [inputs, setInputs] = useState({});
+    const location = useLocation();
     const email = location.state;
 
     const navigate = useNavigate();
@@ -46,8 +46,8 @@ const VerifyUser = () => {
                 }, 5000);
             }
         } catch (error) {
-            if (error.response && error.response.data && error.response.data.message) {
-                setMessage(error.response.data.message)
+            if (error.data && error.data.message) {
+                setMessage(error.data.message)
             } else {
                 setMessage("Something is wrong. Try again.");
             }
@@ -82,12 +82,11 @@ const VerifyUser = () => {
             }
 
         } catch (error) {
-            if (error.response && error.response.message && error.response.message) {
-                setMessage(error.response.message)
+            if (error.data && error.data.message) {
+                setMessage(error.data.message)
             } else {
                 setMessage("Something is wrong. Try again.");
             }
-
         } finally {
             setIsLoading(false);
         }

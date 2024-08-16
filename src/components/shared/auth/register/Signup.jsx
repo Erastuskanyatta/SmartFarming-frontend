@@ -1,12 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Signup.css';
-import apiService from '../../../../services/ApiService';
 
+import apiService from '../../../../services/ApiService';
 import email_icon from '../../../assets/email.png';
 import password_icon from '../../../assets/password.png';
 import avatar_icon from '../../../assets/person.png'
+
+import './Signup.css';
 
 const SignUp = () => {
     const [inputs, setInputs] = useState({})
@@ -48,9 +49,8 @@ const SignUp = () => {
             }
 
         } catch (error) {
-
-            if (error.message && error.message && error.message) {
-                setMessage(error.message);
+            if (error.data && error.data.message) {
+                setMessage(error.data.message);
                 setTimeout(() => {
                     setMessage('');
                 }, 5000);
@@ -61,11 +61,8 @@ const SignUp = () => {
         } finally {
             setIsLoading(false);
         }
-
-
     }
     return (
-
         <div className="card">
             <div className='container'>
                 <div className="header">

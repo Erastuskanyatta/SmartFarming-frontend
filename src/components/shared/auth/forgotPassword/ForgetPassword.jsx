@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { navigate, useNavigate } from 'react-router-dom'
+
 import apiService from '../../../../services/ApiService';
 
 import './ForgetPassword.css';
@@ -19,7 +20,6 @@ const ForgetPassword = () => {
         const value = event.target.value;
         setInputs({ ...inputs, [name]: value })
     }
-
 
     const handleLoginNavigation = () => {
         navigate('/login')
@@ -46,8 +46,8 @@ const ForgetPassword = () => {
                 setMessage('Password Reset failed. Use a different email.');
             }
         } catch (error) {
-            if (error.response && error.response.data && error.response.data.message) {
-                setMessage(error.response.data.message)
+            if (error.data && error.data.message) {
+                setMessage(error.data.message)
             } else {
                 setMessage("Something is wrong. Try again.");
             }

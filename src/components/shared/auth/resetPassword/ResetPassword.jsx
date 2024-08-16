@@ -1,10 +1,11 @@
 import React from 'react';
-import './ResetPassword.css';
 import { useState } from 'react';
-import apiService from '../../../../services/ApiService';
-
-import password_icon from '../../../assets/password.png';
 import { useLocation, useNavigate } from 'react-router-dom';
+
+import apiService from '../../../../services/ApiService';
+import password_icon from '../../../assets/password.png';
+
+import './ResetPassword.css';
 
 
 const ResetPassword = () => {
@@ -21,6 +22,10 @@ const ResetPassword = () => {
         const name = event.target.name;
         const value = event.target.value;
         setInputs({ ...inputs, [name]: value })
+    }
+
+    const handleResendCode = async (e) => {
+        navigate('/forgetPassword')
     }
 
     const handleResetPassword = async (e) => {
@@ -47,8 +52,8 @@ const ResetPassword = () => {
                 setMessage('Password reset Failed.')
             }
         } catch (error) {
-            if (error.response && error.response.data && error.response.data.message) {
-                setMessage(error.response.data.message)
+            if (error.data && error.data.message) {
+                setMessage(error.data.message)
             } else {
                 setMessage("Something is wrong. Try again.");
             }
@@ -95,6 +100,7 @@ const ResetPassword = () => {
                         <button className='submit' type='submit' disabled={IsLoading}>
                             {IsLoading ? 'Please wait...' : 'Submit'}
                         </button>
+                        <div className="submit gray" onClick={handleResendCode}>Resend code</div>
                     </div>
                 </form>
             </div>

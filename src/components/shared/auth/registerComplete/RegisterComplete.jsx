@@ -1,10 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import './RegisterComplete.css'
-import apiService from '../../../../services/ApiService';
 
+import apiService from '../../../../services/ApiService';
 import avatar_email from '../../../assets/email.png';
+
+import './RegisterComplete.css'
 
 const RegisterComplete = () => {
     const [message, setMessage] = useState('');
@@ -41,8 +42,8 @@ const RegisterComplete = () => {
             }
 
         } catch (error) {
-            if (error.message && error.message && error.message) {
-                setMessage(error.message)
+            if (error.data && error.data.message) {
+                setMessage(error.data.message)
             } else {
 
                 setMessage("An error occured while sending the code");
