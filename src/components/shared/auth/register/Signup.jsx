@@ -17,7 +17,7 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const handleNavigation = () => {
-        navigate('/login');
+        navigate('/login'); //this should be the dashboard page
     }
 
     const handleInputs = async (event) => {
