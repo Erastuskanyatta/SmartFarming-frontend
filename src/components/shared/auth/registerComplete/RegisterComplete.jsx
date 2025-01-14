@@ -81,7 +81,6 @@ const RegisterComplete = () => {
             </div>
         </div>
     );
-
 }
 
 export default RegisterComplete
