@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const BASE_PATH = 'http://localhost:8080/api/v1';
 
 const apiService = axios.create({
@@ -8,7 +7,8 @@ const apiService = axios.create({
     headers: {
         'Authorization': 'Bearer ',
         'Content-Type': 'application/json',
-        'X-Custom-Status': 'active'
+        'X-Custom-Status': 'active',
+
     }
 });
 
