@@ -34,17 +34,16 @@ const Login = () => {
         e.preventDefault();
 
         setIsLoading(true);
-
         try {
             const response = await apiService.post(`${apiService.BASE_PATH}/authenticate`,
                 {
                     email: inputs.email,
                     password: inputs.password
-                });
+            });
             if (response.status === 200) {
                 setMessage("Login Successful.");
                 setTimeout(() => {
-                    navigate('/resetPassword');
+                    navigate('/landingpage');
 
                 }, 4000);
 

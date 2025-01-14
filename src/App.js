@@ -9,6 +9,7 @@ import ForgetPassword from './components/shared/auth/forgotPassword/ForgetPasswo
 import ResetPassword from './components/shared/auth/resetPassword/ResetPassword';
 import VerifyUser from './components/shared/auth/verifyUser/VerifyUser'
 import RegisterComplete from './components/shared/auth/registerComplete/RegisterComplete';
+import LandingPage from './components/core/landing/LandingPage';
 
 
 const App = () => {
@@ -24,6 +25,8 @@ const App = () => {
         <Route path="/resetPassword" element={<ResetPassword />}/>
         <Route path="/verifyUser" element={<VerifyUser />}/>
         <Route path="/registerComplete" element={<RegisterComplete />}/>
+
+        <Route path="/landingpage" element={<LandingPage/>} />
       </Routes>
     </Router>
     </>
