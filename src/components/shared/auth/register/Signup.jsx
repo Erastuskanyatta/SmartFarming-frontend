@@ -17,7 +17,7 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const handleNavigation = () => {
-        navigate('/login'); //this should be the dashboard page
+        navigate('/login');
     }
 
     const handleInputs = async (event) => {
@@ -42,7 +42,7 @@ const SignUp = () => {
             if (response.status === 201) {
                 setMessage('Registered successfully. Please verify your account.');
                 setTimeout(() => {
-                    navigate('/registerComplete');
+                    navigate('/registerComplete', { state: inputs.email });
                 }, 2000);
             } else {
                 setMessage('Registration failed. Please try again.');

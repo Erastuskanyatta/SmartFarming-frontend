@@ -39,7 +39,7 @@ const Login = () => {
                 {
                     email: inputs.email,
                     password: inputs.password
-            });
+                });
             if (response.status === 200) {
                 setMessage("Login Successful.");
                 setTimeout(() => {

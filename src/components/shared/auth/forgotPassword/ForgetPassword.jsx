@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { navigate, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import apiService from '../../../../services/ApiService';
 
