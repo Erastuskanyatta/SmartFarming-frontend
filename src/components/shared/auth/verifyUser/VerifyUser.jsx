@@ -1,18 +1,19 @@
 import React from 'react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
+
 import apiService from '../../../../services/ApiService';
+import email_icon from '../../../assets/email.png';
 
 import './VerifyUser.css';
 
-import email_icon from '../../../assets/email.png';
-
 const VerifyUser = () => {
+    const location = useLocation();
+    const email = location.state;
+
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [inputs, setInputs] = useState({});
-    const location = useLocation();
-    const email = location.state;
 
     const navigate = useNavigate();
 

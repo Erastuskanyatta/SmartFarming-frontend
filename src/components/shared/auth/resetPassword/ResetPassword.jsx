@@ -7,14 +7,13 @@ import password_icon from '../../../assets/password.png';
 
 import './ResetPassword.css';
 
-
 const ResetPassword = () => {
+    const location = useLocation();
+    const email = location.state;
+
     const [message, setMessage] = useState('');
     const [inputs, setInputs] = useState({});
     const [IsLoading, setIsLoading] = useState(false);
-
-    const location = useLocation();
-    const email = location.state;
 
     const navigate = useNavigate();
 

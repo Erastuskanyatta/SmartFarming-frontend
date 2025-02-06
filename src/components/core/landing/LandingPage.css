@@ -1,0 +1,73 @@
+
+.navigationBar{
+    background-image: url(../../../asset/images/try.jpg);
+    background-repeat:  no-repeat;
+    background-size: 2300px 200px;
+    height:  700px;
+    position: relative;
+}
+
+.shopping-cart{
+    position: relative;
+    display:  flex;
+    align-items: center;
+    justify-content:  center;
+    width: 40 px;
+    height: 40 px;
+    color:  white;
+    background-color: green;
+    border:  none;
+    outline:  none;
+    border-radius: 50%;
+}
+
+.logo{
+    position: absolute;
+    top:  10%;
+    left:  10%;
+    transform: translate(-50%, -50%);
+    width:  100px;
+    height: 100px;
+
+}
+.cart-button{
+    position: absolute;
+    top:  10%;
+    right:  10%;
+    transform: translate(-50%, -50%);
+    width:  100px;
+    height: 100px;
+}
+.icon_button{
+    position: absolute;
+    top:  10%;
+    right:  20%;
+    transform: translate(-50%, -50%);
+    width:  100px;
+    height: 100px;
+}
+
+.sell{
+    position: absolute;
+    top:  10%;
+    right:  0%;
+    left: 200;
+    transform: translate(-50%, -50%);
+    width:  100px;
+    height: 100px;
+}
+.avartar{
+    position: absolute;
+    top:  10%;
+    right:  10%;
+    border-radius: 5px;
+    overflow: hidden;
+    border: none;
+    font-size: 1px;
+
+/* 
+    transform: translate(-50%, -50%);
+    width:  10px;
+    height: 10px; */
+    
+}
