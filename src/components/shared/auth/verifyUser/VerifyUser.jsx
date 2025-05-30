@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import apiService from '../../../../services/ApiService';
 import email_icon from '../../../assets/email.png';
+import logo from '../../../../asset/images/logo.png';
+
 
 import './VerifyUser.css';
 
@@ -14,6 +16,8 @@ const VerifyUser = () => {
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [inputs, setInputs] = useState({});
+    const [action, setAction] = useState(`Verify your email account`);
+
 
     const navigate = useNavigate();
 
@@ -96,8 +100,11 @@ const VerifyUser = () => {
     return (
         <div className="forgetPassword-card">
             <div className='container'>
+                <div className='logo'>
+                    <img src={logo} alt="Logo" style={{ width: '130px', height: 'auto' }} />
+                </div>
                 <div className='resetPassword'>
-                    <p>Verify your email account.</p>
+                    <div className="verify-user text">{action}</div>
                     <p>Check <span className='stateValue'>{email}</span> for a verification code.</p>
                 </div>
                 <div className='notificationMessage'>

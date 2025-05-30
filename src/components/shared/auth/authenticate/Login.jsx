@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import apiService from '../../../../services/ApiService';
 import email_icon from '../../../assets/email.png';
 import password_icon from '../../../assets/password.png';
+import logo from '../../../../asset/images/logo.png';
 
 import './Login.css';
 
@@ -12,7 +13,7 @@ const Login = () => {
     const [message, setMessage] = useState('');
     const [inputs, setInputs] = useState({});
     const [isLoading, setIsLoading] = useState(false)
-    const [action, setAction] = useState("Login");
+    const [action, setAction] = useState(`Sign in to your account`);
 
     const navigate = useNavigate();
 
@@ -66,8 +67,16 @@ const Login = () => {
         <div className="login-card">
             <div className='container'>
                 <div className="header">
+                    <div className='logo'>
+                        <img src={logo} alt="Logo" style={{ width: '130px', height: 'auto' }} />
+                    </div>
                     <div className="text">{action}</div>
-                    <div className="underline"></div>
+                    <p className='mt-2 text-center text-sm text-gray-600'>
+                        Or
+                        <span className="font-medium text-green-800" onClick={handleSignUp}>
+                            Create an account
+                        </span>
+                    </p>
                 </div>
                 <div className='notificationMessage'>
                     {message && <p>{message}</p>}</div>
@@ -91,17 +100,18 @@ const Login = () => {
                     </div>
 
                     {action === "Sign Up" ? <div></div> :
-                        <div className="forgot-password">Forgot Password?  <span onClick={handleResetPassword}>Click me</span></div>
+                        <div className="font-medium text-remember-me"> Remember me
+                            <span className="font-medium text-green-400" onClick={handleResetPassword}>Forgot your Password?</span></div>
                     }
-                    <div className="submit-container">
+                    <div className="login submit-container">
                         <button className='submit' type='submit' disabled={isLoading}>
-                            {isLoading ? "Please wait..." : 'Login'}
+                            {isLoading ? "Please wait..." : 'Sign in'}
                         </button>
-
-                        <div className="submit gray" onClick={handleSignUp}>Sign Up</div>
                     </div>
-
                 </form>
+                <div className="relative flex justify-center text-sm">
+                    <span>Or continue with</span>
+                </div>
             </div>
         </div>
     );

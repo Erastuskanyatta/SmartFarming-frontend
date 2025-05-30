@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import apiService from '../../../../services/ApiService';
 import avatar_email from '../../../assets/email.png';
+import logo from '../../../../asset/images/logo.png';
 
 import './RegisterComplete.css';
 
@@ -13,6 +14,7 @@ const RegisterComplete = () => {
     const [message, setMessage] = useState('');
     const [inputs, setInputs] = useState({ email: emailValue || '' });
     const [isLoading, setIsLoading] = useState(false);
+    const [action, setAction] = useState(`Verify your account`);
 
     const navigate = useNavigate();
 
@@ -49,8 +51,11 @@ const RegisterComplete = () => {
         <div className="registerComplete-card">
             <div className='container'>
                 <div className='resetPassword'>
-                    <p>Verify your account.</p>
-                    <p>Send a code to your email below to verify your account.</p>
+                    <div className='logo'>
+                        <img src={logo} alt="Logo" style={{ width: '130px', height: 'auto' }} />
+                    </div>
+                    <div className='text'>{action}</div>
+                    <div className='verify-accout text'>Send a code to the email below to verify your account.</div>
                 </div>
                 <div className='notificationMessage'>
                     {message && <p>{message}</p>}
@@ -68,7 +73,7 @@ const RegisterComplete = () => {
                             />
                         </div>
                     </div>
-                    <div className="submit-container">
+                    <div className="register-complete submit-container">
                         <button className='submit' type='submit' disabled={isLoading}>
                             {isLoading ? "Please wait..." : 'Send'}
                         </button>

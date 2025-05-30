@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import apiService from '../../../../services/ApiService';
 import password_icon from '../../../assets/password.png';
+import logo from '../../../../asset/images/logo.png';
 
 import './ResetPassword.css';
 
@@ -14,6 +15,7 @@ const ResetPassword = () => {
     const [message, setMessage] = useState('');
     const [inputs, setInputs] = useState({});
     const [IsLoading, setIsLoading] = useState(false);
+    const [action, setAction] = useState(`Choose a new password`);
 
     const navigate = useNavigate();
 
@@ -64,9 +66,10 @@ const ResetPassword = () => {
     return (
         <div className="resetPassword-card">
             <div className='container'>
-                <div className='resetPassword'>
-                    <p>Choose a new password</p>
+                <div className='logo'>
+                    <img src={logo} alt="Logo" style={{ width: '130px', height: 'auto' }} />
                 </div>
+                <div className="new-password text">{action}</div>
                 <div className='notificationMessage'>
                     {message && <p>{message}</p>}</div>
                 <form onSubmit={handleResetPassword}>
