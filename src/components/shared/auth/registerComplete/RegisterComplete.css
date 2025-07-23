@@ -1,10 +1,10 @@
 .registerComplete-card {
-    box-shadow: 0 9px 17px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
-    margin-top: 210px;
+    margin-top: 320px;
     margin-left: 702px;
     width: 500px;
-    height: 490px;
+    height: 380px;
     align-items: center;
     position: fixed;
 }
@@ -27,5 +27,11 @@
     font-size: larger;
     margin-top: 20px;
     margin-left: 100px;
-    color: blue;
+}
+.text{
+    color:  black;
+    font-size: 20px;
+    margin-left: 165px;
+    margin-top: 3px;
+    font-weight: 500;
 }

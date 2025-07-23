@@ -99,10 +99,23 @@ const Login = () => {
                         </div>
                     </div>
 
-                    {action === "Sign Up" ? <div></div> :
-                        <div className="font-medium text-remember-me"> Remember me
-                            <span className="font-medium text-green-400" onClick={handleResetPassword}>Forgot your Password?</span></div>
-                    }
+                    {action === "Sign Up" ? (
+                        <div></div>
+                    ) : (
+                        <div className="flex items-center gap-2 font-medium text-remember-me">
+                            <input type="checkbox" id="rememberMe" className="accent-green-400" />
+                            <label htmlFor="rememberMe" className="cursor-pointer">
+                                Remember me
+                            </label>
+                            <span
+                                className="ml-auto font-medium text-green-400 cursor-pointer"
+                                onClick={handleResetPassword}
+                            >
+                                Forgot your Password?
+                            </span>
+                        </div>
+                    )}
+
                     <div className="login submit-container">
                         <button className='submit' type='submit' disabled={isLoading}>
                             {isLoading ? "Please wait..." : 'Sign in'}

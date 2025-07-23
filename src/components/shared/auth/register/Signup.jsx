@@ -121,12 +121,10 @@ const SignUp = () => {
                         </div>
                     </div>
 
-                    <div className="submit-container">
+                    <div className="sign-up submit-container">
                         <button className='submit' type='submit' disabled={isLoading}>
                             {isLoading ? "Please wait..." : 'Sign Up'}
                         </button>
-
-                        <div className="submit gray" onClick={handleSignUp}>Login</div>
                     </div>
 
                 </form>

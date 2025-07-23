@@ -50,13 +50,13 @@
   margin-left: 190px;
 }
 
-.submit-container {
+.submit-container{
   display: flex;
   gap: 20px;
   margin: 30px auto;
   font-size: 18px;
   font-weight: 100px;
-  margin-left: 150px;
+  margin-left: 550px;
 }
 
 .forgot-password {
@@ -72,7 +72,10 @@
   font-size: 19px;
   font-weight: 70px;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
+}
+.sign-up.submit-container{
+  margin-left: 150px;
 }
 
 .container {

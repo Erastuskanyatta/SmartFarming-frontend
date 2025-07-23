@@ -11,12 +11,12 @@
 
 .mt-2.text-center.text-sm.text-gray-600 {
   font-size: larger;
-  margin-left: 200px;
+  margin-left: 240px;
 }
 
 .font-medium.text-remember-me {
   font-size: larger;
-  margin-left: 120px;
+  margin-left: 105px;
   margin-top: 24px;
 }
 
@@ -29,7 +29,10 @@
 
 .relative.flex.justify-center.text-sm {
   margin-left: 200px;
+  margin-top: -20px;
+  font-size: larger;
 }
+
 
 .login.submit-container {
   margin-left: 147px;
@@ -37,8 +40,12 @@
 }
 
 .logo {
-  margin-top: -10px;
+  margin-top: -20px;
   margin-left: 190px;
+}
+
+.ml-auto.font-medium.text-green-400.cursor-pointer {
+  margin-left: 52px;
 }
 
 :where(.font-medium.text-green-800, .font-medium.text-green-400) {

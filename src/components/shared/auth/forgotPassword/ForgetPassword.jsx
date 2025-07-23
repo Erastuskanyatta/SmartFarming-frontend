@@ -12,7 +12,7 @@ const ForgetPassword = () => {
     const [message, setMessage] = useState('');
     const [inputs, setInputs] = useState({});
     const [IsLoading, setIsLoading] = useState(false)
-    const [action, setAction] = useState(`Forgot password ?`);
+    const [action, setAction] = useState(`Forgot password?`);
 
     const navigate = useNavigate();
 
