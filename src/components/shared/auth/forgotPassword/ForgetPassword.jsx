@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import apiService from '../../../../services/ApiService';
 import email_icon from '../../../assets/email.png';
+import logo from '../../../../asset/images/logo.png';
 
 import './ForgetPassword.css';
 
@@ -11,6 +12,7 @@ const ForgetPassword = () => {
     const [message, setMessage] = useState('');
     const [inputs, setInputs] = useState({});
     const [IsLoading, setIsLoading] = useState(false)
+    const [action, setAction] = useState(`Forgot password?`);
 
     const navigate = useNavigate();
 
@@ -60,8 +62,10 @@ const ForgetPassword = () => {
         <div className="forgetPassword-card">
             <div className='container'>
                 <div className="header">
-                    <div className="resetPasstext">Forgot password</div>
-                    <div className="underline"></div>
+                    <div className='logo'>
+                        <img src={logo} alt="Logo" style={{ width: '130px', height: 'auto' }} />
+                    </div>
+                    <div className="forgot-password text">{action}</div>
                 </div>
                 <div className='notificationMessage'>
                     {message && <p>{message}</p>}</div>
@@ -77,7 +81,7 @@ const ForgetPassword = () => {
                     <div className='resetPassword'>
                         <p>We'll send a verification code to this email if it matches an existing account.</p>
                     </div>
-                    <div className="submit-container">
+                    <div className="forgot-password submit-container">
                         <button className='submit' type='submit' disabled={IsLoading}>
                             {IsLoading ? 'Please wait..' : 'Next'}
                         </button>

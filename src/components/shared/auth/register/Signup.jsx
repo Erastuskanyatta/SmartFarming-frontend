@@ -6,6 +6,7 @@ import apiService from '../../../../services/ApiService';
 import email_icon from '../../../assets/email.png';
 import password_icon from '../../../assets/password.png';
 import avatar_icon from '../../../assets/person.png'
+import logo from '../../../../asset/images/logo.png';
 
 import './Signup.css';
 
@@ -13,11 +14,12 @@ const SignUp = () => {
     const [inputs, setInputs] = useState({})
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [action, setAction] = useState(`Create an account`);
 
     const navigate = useNavigate();
 
-    const handleNavigation = () => {
-        navigate('/login');
+    const handleSignUp = () => {
+        navigate('/login')
     }
 
     const handleInputs = async (event) => {
@@ -66,8 +68,14 @@ const SignUp = () => {
         <div className="card">
             <div className='container'>
                 <div className="header">
-                    <div className="text">Sign Up</div>
-                    <div className="underline"></div>
+                    <div className='signup logo'>
+                        <img src={logo} alt="Logo" style={{ width: '130px', height: 'auto' }} />
+                    </div>
+                    <div className="text">{action}</div>
+                    <p className='mt-2 text-center text-sm text-gray-600'>Or
+                        <span className="font-medium text-green-400" onClick={handleSignUp}>
+                            Login to an existing account</span>
+                    </p>
                 </div>
                 <div className='notificationMessage'>
                     {message && <p>{message}</p>}</div>
@@ -113,12 +121,10 @@ const SignUp = () => {
                         </div>
                     </div>
 
-                    <div className="submit-container">
+                    <div className="sign-up submit-container">
                         <button className='submit' type='submit' disabled={isLoading}>
                             {isLoading ? "Please wait..." : 'Sign Up'}
                         </button>
-
-                        <div className="submit gray" onClick={handleNavigation}>Login</div>
                     </div>
 
                 </form>

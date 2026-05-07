@@ -1,16 +1,35 @@
-.forgetPassword-card{
-    box-shadow: 0 5px 4px 0 rgba(0,0,0,0.2);
+.forgetPassword-card {
+    box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.2);
     transition: 0.1s;
-    margin-top: 200px;
-    margin-left:  702px;
+    margin-top: 320px;
+    margin-left: 702px;
     position: fixed;
-    width:  500px;
-    height:  490px;
+    width: 500px;
+    height: 380px;
     align-items: center
 }
 
-.stateValue{
+.stateValue {
     color: red;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.verify-user.text {
+    font-size: 20px;
+    margin-left: 155px;
+    margin-top: 3px;
+    font-weight: 500;
+    color: black;
+}
+
+p {
+    font-size: 15px;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.register-complete.submit-container {
+    margin-left: 150px;
+    margin-top: 20px;
 }

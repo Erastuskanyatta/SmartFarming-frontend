@@ -1,24 +1,37 @@
-.registerComplete-card{
-    box-shadow: 0 9px 18px 0 rgba(0,0,0,0.2);
+.registerComplete-card {
+    box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
-    margin-top: 200px;
-    margin-left:  702px;
-    width:  500px;
-    height:  490px;
+    margin-top: 320px;
+    margin-left: 702px;
+    width: 500px;
+    height: 380px;
     align-items: center;
     position: fixed;
 }
 
-.submit{
-    cursor:  pointer;
+.submit {
+    cursor: pointer;
     border-radius: 20px;
-    display:  flex;
+    display: flex;
     color: white;
-    background-color:  blue;
+    background-color: blue;
     font-size: 19px;
     font-weight: 70px;
     align-items: center;
     justify-content: center;
     width: 220px;
-    height:  40px;
+    height: 40px;
+}
+
+.verify-accout.text {
+    font-size: larger;
+    margin-top: 20px;
+    margin-left: 100px;
+}
+.text{
+    color:  black;
+    font-size: 20px;
+    margin-left: 165px;
+    margin-top: 3px;
+    font-weight: 500;
 }
