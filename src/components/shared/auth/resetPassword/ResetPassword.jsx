@@ -66,8 +66,9 @@ const ResetPassword = () => {
     return (
         <div className="resetPassword-card">
             <div className='container'>
-                <div className='logo'>
-                    <img src={logo} alt="Logo" style={{ width: '130px', height: 'auto' }} />
+                {/* Fix these styles, use external css instead */}
+                <div className="logo" style={{ marginTop: '-40px', marginBottom: '400px', marginLeft: '150px' }}>
+                    <img src={logo} alt="Logo" style={{ width: '190px', height: 'auto' }} />
                 </div>
                 <div className="new-password text">{action}</div>
                 <div className='notificationMessage'>

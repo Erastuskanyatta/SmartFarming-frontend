@@ -62,12 +62,9 @@ const ForgetPassword = () => {
     <div className="forgetPassword-card">
       <div className="container">
         <div className="header">
-          <div className="logo">
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "130px", height: "auto" }}
-            />
+          {/* Fix these styles, use external css instead */}
+          <div className="logo" style={{ marginTop: '-40px', marginBottom: '400px', marginLeft: '150px' }}>
+            <img src={logo} alt="Logo" style={{ width: '190px', height: 'auto' }} />
           </div>
           <div className="forgot-password text">{action}</div>
         </div>

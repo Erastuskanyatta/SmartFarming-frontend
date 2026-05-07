@@ -6,7 +6,7 @@ import apiService from '../../../../services/ApiService';
 import email_icon from '../../../assets/email.png';
 import logo from '../../../../asset/images/logo.png';
 
-
+ 
 import './VerifyUser.css';
 
 const VerifyUser = () => {
@@ -100,8 +100,9 @@ const VerifyUser = () => {
     return (
         <div className="forgetPassword-card">
             <div className='container'>
-                <div className='logo'>
-                    <img src={logo} alt="Logo" style={{ width: '130px', height: 'auto' }} />
+                {/* Fix these styles, use external css instead */}
+                <div className="logo" style={{ marginTop: '-40px', marginBottom: '400px', marginLeft: '150px' }}>
+                    <img src={logo} alt="Logo" style={{ width: '190px', height: 'auto' }} />
                 </div>
                 <div className='resetPassword'>
                     <div className="verify-user text">{action}</div>
