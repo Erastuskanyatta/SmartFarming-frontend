@@ -5,8 +5,21 @@
   margin-left: 702px;
   width: 500px;
   height: 830px;
-  align-items: center;
   position: fixed;
+  display: flex;
+  flex-direction: column;
+  padding-top: 47px;
+}
+
+.logo {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo img {
+  width: 120px;
+  height: 60px;
+  object-fit: contain;
 }
 
 .inputs {

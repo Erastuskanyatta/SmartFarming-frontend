@@ -66,8 +66,8 @@ const ResetPassword = () => {
     return (
         <div className="resetPassword-card">
             <div className='container'>
-                <div className='logo'>
-                    <img src={logo} alt="Logo" style={{ width: '130px', height: 'auto' }} />
+                <div className="logo">
+                    <img src={logo} alt="Logo" />
                 </div>
                 <div className="new-password text">{action}</div>
                 <div className='notificationMessage'>

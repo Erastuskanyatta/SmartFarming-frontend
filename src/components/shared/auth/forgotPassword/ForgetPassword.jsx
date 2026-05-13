@@ -63,11 +63,7 @@ const ForgetPassword = () => {
       <div className="container">
         <div className="header">
           <div className="logo">
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "130px", height: "auto" }}
-            />
+            <img src={logo} alt="Logo" />
           </div>
           <div className="forgot-password text">{action}</div>
         </div>

@@ -58,17 +58,24 @@
   
   .square {
     background: #fff;
-    border: 1px solid #999;
+    border-right: 1px solid #999;
+    border-bottom: 1px solid #999;
     float: left;
     font-size: 24px;
     font-weight: bold;
     line-height: 34px;
     height: 34px;
-    margin-right: -1px;
-    margin-top: -1px;
     padding: 0;
     text-align: center;
     width: 34px;
+  }
+
+  .board-row:first-child .square {
+    border-top: 1px solid #999;
+  }
+
+  .board-row .square:first-child {
+    border-left: 1px solid #999;
   }
   
   .board-row:after {

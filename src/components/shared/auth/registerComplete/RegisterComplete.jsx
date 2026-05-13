@@ -51,8 +51,8 @@ const RegisterComplete = () => {
         <div className="registerComplete-card">
             <div className='container'>
                 <div className='resetPassword'>
-                    <div className='logo'>
-                        <img src={logo} alt="Logo" style={{ width: '130px', height: 'auto' }} />
+                    <div className="logo">
+                        <img src={logo} alt="Logo" />
                     </div>
                     <div className='text'>{action}</div>
                     <div className='verify-accout text'>Send a code to the email below to verify your account.</div>

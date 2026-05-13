@@ -6,8 +6,20 @@
     position: fixed;
     width: 500px;
     height: 380px;
-    align-items: center
+    display: flex;
+    flex-direction: column;
+    padding-top: 47px;
 }
+
+.logo {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo img {
+  margin-left: 140px;
+}
+
 
 .stateValue {
     color: red;

@@ -5,8 +5,19 @@
     margin-left: 702px;
     width: 500px;
     height: 380px;
-    align-items: center;
     position: fixed;
+    display: flex;
+    flex-direction: column;
+    padding-top: 47px;
+}
+
+.logo {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo img {
+  margin-left: 140px;
 }
 
 .submit {
@@ -28,10 +39,17 @@
     margin-top: 20px;
     margin-left: 100px;
 }
+
 .text{
     color:  black;
     font-size: 20px;
     margin-left: 165px;
     margin-top: 3px;
     font-weight: 500;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2px;
 }
