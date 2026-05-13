@@ -5,8 +5,10 @@
   margin-left: 702px;
   width: 500px;
   height: 530px;
-  align-items: center;
   position: fixed;
+  display: flex;
+  flex-direction: column;
+  padding-top: 47px;
 }
 
 .mt-2.text-center.text-sm.text-gray-600 {
@@ -29,10 +31,9 @@
 
 .relative.flex.justify-center.text-sm {
   margin-left: 200px;
-  margin-top: -20px;
+  transform: translateY(-20px);
   font-size: larger;
 }
-
 
 .login.submit-container {
   margin-left: 147px;
@@ -41,6 +42,15 @@
 
 .ml-auto.font-medium.text-green-400.cursor-pointer {
   margin-left: 52px;
+}
+
+.logo {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo img {
+  margin-left: 140px;
 }
 
 :where(.font-medium.text-green-800, .font-medium.text-green-400) {

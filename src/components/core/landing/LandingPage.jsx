@@ -5,7 +5,7 @@ import './LandingPage.css';
 import logo from '../../../asset/images/logo.png';
 import avartar from '../../../asset/images/profile_photo.png';
 
-import { MdChat, MdNotifications, MdShoppingCart } from "react-icons/md";
+import { MdChat, MdNotifications, MdShoppingCart, MdSearch } from "react-icons/md";
 
 import IconButton from "./IconButton";
 import Footer from "./Footer";
@@ -60,7 +60,7 @@ const LandingPage = () => {
                                         placeholder="Type your search here"
                                         className="search-input"
                                     />
-                                    <span className="search-icon">🔍</span>
+                                    <MdSearch className="search-icon" size={20} />
                                 </div>
                             </div>
 

@@ -41,6 +41,7 @@
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+  color: gray;
 }
 
 .logo {
@@ -85,8 +86,9 @@
 
 .icon-button_badge {
   position: absolute;
-  top: -5px;
-  right: -8px;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
 
   background: red;
   color: white;

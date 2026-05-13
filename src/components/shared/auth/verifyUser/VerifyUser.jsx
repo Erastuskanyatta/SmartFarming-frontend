@@ -100,9 +100,8 @@ const VerifyUser = () => {
     return (
         <div className="forgetPassword-card">
             <div className='container'>
-                {/* Fix these styles, use external css instead */}
-                <div className="logo" style={{ marginTop: '-40px', marginBottom: '400px', marginLeft: '150px' }}>
-                    <img src={logo} alt="Logo" style={{ width: '190px', height: 'auto' }} />
+                <div className="logo">
+                    <img src={logo} alt="Logo" />
                 </div>
                 <div className='resetPassword'>
                     <div className="verify-user text">{action}</div>

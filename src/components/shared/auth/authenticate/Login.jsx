@@ -67,9 +67,8 @@ const Login = () => {
         <div className="login-card">
             <div className='container'>
                 <div className="header">
-                    {/*Fix these styles, use external css instead */}
-                    <div className="logo" style={{ marginTop: '-40px', marginBottom: '616px', marginLeft: '160px' }}>
-                        <img src={logo} alt="Logo" style={{ width: '190px', height: 'auto' }} />
+                    <div className="logo">
+                        <img src={logo} alt="Logo" />
                     </div>
                     <div className="text">{action}</div>
                     <p className='mt-2 text-center text-sm text-gray-600'>

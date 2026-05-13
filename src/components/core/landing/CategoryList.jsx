@@ -2,6 +2,7 @@ import React from "react";
 import { MdPhoneAndroid, MdCheckroom, MdHome } from "react-icons/md";
 
 import Category from "./Category";
+ 
 import { products } from "./products";
 
 const categoryConfig = [
