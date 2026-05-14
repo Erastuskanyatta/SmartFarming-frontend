@@ -23,7 +23,7 @@ const StarRating = ({ rating }) => {
 };
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { productId } = useParams();
   const navigate = useNavigate();
   const { addToCart, updateQuantity, removeFromCart, items } = useCart();
   const [quantity, setQuantity] = useState(1);
@@ -32,7 +32,7 @@ const ProductDetail = () => {
     addToCart(product, quantity);
   };
 
-  const product = products.find((p) => p.id === parseInt(id));
+  const product = products.find((p) => p.productId === parseInt(productId));
 
   if (!product) {
     return (
@@ -50,7 +50,7 @@ const ProductDetail = () => {
   );
 
   const sellerProducts = products.filter(
-    (p) => p.seller === product.seller && p.id !== product.id
+    (p) => p.seller === product.seller && p.productId !== product.productId
   ).slice(0, 4);
 
   const relatedProducts = products.filter(
@@ -68,7 +68,7 @@ const ProductDetail = () => {
           <MdArrowBack size={18} /> Back
         </button>
         <span className="pd-breadcrumb">
-          {product.categoryName} &rsaquo; {product.name}
+          {product.categoryName} &rsaquo; {product.productName}
         </span>
       </div>
 
@@ -77,14 +77,14 @@ const ProductDetail = () => {
 
         {/* Left: Image */}
         <div className="pd-image-section">
-          <img src={product.imageURL} alt={product.name} className="pd-main-image" />
+          <img src={product.imageURL} alt={product.productName} className="pd-main-image" />
         </div>
 
         {/* Right: Info */}
         <div className="pd-info-section">
 
           <span className="pd-category-badge">{product.categoryName}</span>
-          <h1 className="pd-title">{product.name}</h1>
+          <h1 className="pd-title">{product.productName}</h1>
 
           <div className="pd-rating-row">
             <StarRating rating={product.rating} />
@@ -106,12 +106,12 @@ const ProductDetail = () => {
 
           {/* Quantity */}
           {(() => {
-            const cartQty = items.find((i) => i.product.id === product.id)?.quantity ?? 0;
+            const cartQty = items.find((i) => i.product.productId === product.productId)?.quantity ?? 0;
             const displayQty = cartQty > 0 ? cartQty : quantity;
 
             const handleMinus = () => {
-              if (cartQty > 1) updateQuantity(product.id, cartQty - 1);
-              else if (cartQty === 1) removeFromCart(product.id);
+              if (cartQty > 1) updateQuantity(product.productId, cartQty - 1);
+              else if (cartQty === 1) removeFromCart(product.productId);
               else setQuantity((q) => Math.max(1, q - 1));
             };
 
@@ -212,12 +212,12 @@ const ProductDetail = () => {
           <div className="pd-related-grid">
             {sellerProducts.map((p) => (
               <div
-                key={p.id}
+                key={p.productId}
                 className="pd-related-card"
-                onClick={() => navigate(`/product/${p.id}`)}
+                onClick={() => navigate(`/product/${p.productId}`)}
               >
-                <img src={p.imageURL} alt={p.name} />
-                <p className="pd-related-name">{p.name}</p>
+                <img src={p.imageURL} alt={p.productName} />
+                <p className="pd-related-name">{p.productName}</p>
                 <p className="pd-related-price">KSh {p.price.toLocaleString()}</p>
               </div>
             ))}
@@ -232,12 +232,12 @@ const ProductDetail = () => {
           <div className="pd-related-grid">
             {relatedProducts.map((p) => (
               <div
-                key={p.id}
+                key={p.productId}
                 className="pd-related-card"
-                onClick={() => navigate(`/product/${p.id}`)}
+                onClick={() => navigate(`/product/${p.productId}`)}
               >
-                <img src={p.imageURL} alt={p.name} />
-                <p className="pd-related-name">{p.name}</p>
+                <img src={p.imageURL} alt={p.productName} />
+                <p className="pd-related-name">{p.productName}</p>
                 <p className="pd-related-seller">by {p.seller}</p>
                 <p className="pd-related-price">KSh {p.price.toLocaleString()}</p>
               </div>

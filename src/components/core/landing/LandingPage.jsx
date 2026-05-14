@@ -37,7 +37,7 @@ const LandingPage = () => {
                                         products={products}
                                         searchKey={searchKey}
                                         selectedCategory={selectedCategory}
-                                        onSelect={(p) => navigate(`/product/${p.id}`)}
+                                        onSelect={(p) => navigate(`/product/${p.productId}`)}
                                     />
 
                                 </div>

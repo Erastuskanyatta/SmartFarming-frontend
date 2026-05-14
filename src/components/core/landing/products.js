@@ -3,8 +3,8 @@ import product2 from '../../../asset/images/image12.jpg';
 
 export const products = [
   {
-    id: 1,
-    name: "Fresh Hen Eggs",
+    productId: 1,
+    productName: "Fresh Hen Eggs",
     categoryName: "Animals",
     price: 12000,
     originalPrice: 15000,
@@ -27,8 +27,8 @@ export const products = [
     ],
   },
   {
-    id: 2,
-    name: "Maize (1 Bag 90kg)",
+    productId: 2,
+    productName: "Maize (1 Bag 90kg)",
     categoryName: "Grains",
     price: 3000,
     originalPrice: 3800,
@@ -51,8 +51,8 @@ export const products = [
     ],
   },
   {
-    id: 3,
-    name: "Broiler Chicks (50 pcs)",
+    productId: 3,
+    productName: "Broiler Chicks (50 pcs)",
     categoryName: "Animals",
     price: 8500,
     originalPrice: 10000,
@@ -75,8 +75,8 @@ export const products = [
     ],
   },
   {
-    id: 4,
-    name: "Wheat Flour (50kg)",
+    productId: 4,
+    productName: "Wheat Flour (50kg)",
     categoryName: "Grains",
     price: 2200,
     originalPrice: 2800,
@@ -99,8 +99,8 @@ export const products = [
     ],
   },
   {
-    id: 5,
-    name: "Dairy Goat (Female)",
+    productId: 5,
+    productName: "Dairy Goat (Female)",
     categoryName: "Animals",
     price: 22000,
     originalPrice: 25000,
@@ -123,8 +123,8 @@ export const products = [
     ],
   },
   {
-    id: 6,
-    name: "Sorghum (1 Bag 90kg)",
+    productId: 6,
+    productName: "Sorghum (1 Bag 90kg)",
     categoryName: "Grains",
     price: 2500,
     originalPrice: 3200,
@@ -147,8 +147,8 @@ export const products = [
     ],
   },
   {
-    id: 7,
-    name: "Kienyeji Chicken (Live)",
+    productId: 7,
+    productName: "Kienyeji Chicken (Live)",
     categoryName: "Animals",
     price: 1500,
     originalPrice: 1800,
@@ -171,8 +171,8 @@ export const products = [
     ],
   },
   {
-    id: 8,
-    name: "Barley (1 Bag 90kg)",
+    productId: 8,
+    productName: "Barley (1 Bag 90kg)",
     categoryName: "Grains",
     price: 3500,
     originalPrice: 4200,
@@ -195,8 +195,8 @@ export const products = [
     ],
   },
   {
-    id: 9,
-    name: "Fresh Hen Eggs (Tray)",
+    productId: 9,
+    productName: "Fresh Hen Eggs (Tray)",
     categoryName: "Animals",
     price: 450,
     originalPrice: 550,
@@ -219,8 +219,8 @@ export const products = [
     ],
   },
   {
-    id: 10,
-    name: "Tilapia Fish (5kg)",
+    productId: 10,
+    productName: "Tilapia Fish (5kg)",
     categoryName: "Fisheries",
     price: 1800,
     originalPrice: 2200,
@@ -243,8 +243,8 @@ export const products = [
     ],
   },
   {
-    id: 11,
-    name: "Rabbit (Breeding Pair)",
+    productId: 11,
+    productName: "Rabbit (Breeding Pair)",
     categoryName: "Animals",
     price: 3200,
     originalPrice: 4000,
@@ -267,8 +267,8 @@ export const products = [
     ],
   },
   {
-    id: 12,
-    name: "Rice (1 Bag 50kg)",
+    productId: 12,
+    productName: "Rice (1 Bag 50kg)",
     categoryName: "Grains",
     price: 4500,
     originalPrice: 5200,

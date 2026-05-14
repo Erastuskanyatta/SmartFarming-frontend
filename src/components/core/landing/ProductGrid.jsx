@@ -2,24 +2,24 @@ import React from "react";
 
 const ProductGrid = ({ products, onSelect, searchKey, selectedCategory }) => {
   const filteredProducts = products
-    .filter(p => p.name.toLowerCase().includes(searchKey.toLowerCase()))
+    .filter(p => p.productName.toLowerCase().includes(searchKey.toLowerCase()))
     .filter(p => selectedCategory ? p.categoryName === selectedCategory : true);
 
   return (
     <div className="product-section">
       <div className="product-grid">
         {filteredProducts.map((product) => (
-          <div key={product.id} className="product-card">
+          <div key={product.productId} className="product-card">
 
             <div className="product-image-wrapper">
               <button className="product-image-btn" onClick={() => onSelect(product)}>
-                <img src={product.imageURL} alt={product.name} />
+                <img src={product.imageURL} alt={product.productName} />
               </button>
             </div>
 
             <div className="product-info">
               <div className="product-category">{product.categoryName}</div>
-              <div className="product-name">{product.name}</div>
+              <div className="product-name">{product.productName}</div>
               <div className="product-price">KSh {product.price.toLocaleString()}</div>
               <div className="product-qty">Qty: {product.aggregate}</div>
             </div>

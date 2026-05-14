@@ -67,7 +67,7 @@ const Cart = () => {
               <div key={product.id} className="cart-item">
                 <img
                   src={product.imageURL}
-                  alt={product.name}
+                  alt={product.productName}
                   className="cart-item-img"
                   onClick={() => navigate(`/product/${product.id}`)}
                 />
@@ -77,7 +77,7 @@ const Cart = () => {
                     className="cart-item-name"
                     onClick={() => navigate(`/product/${product.id}`)}
                   >
-                    {product.name}
+                    {product.productName}
                   </p>
                   <p className="cart-item-seller">Sold by {product.seller}</p>
                   <p className="cart-item-unit-price">
