@@ -10,6 +10,7 @@ import logo from '../../../../asset/images/logo.png';
 import './Login.css';
 
 const Login = () => {
+    // state variables
     const [message, setMessage] = useState('');
     const [inputs, setInputs] = useState({});
     const [isLoading, setIsLoading] = useState(false)
