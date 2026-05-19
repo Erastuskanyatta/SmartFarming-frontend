@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdChat, MdNotifications, MdShoppingCart, MdSearch } from "react-icons/md";
 
 import { useCart } from "../../core/cart/CartContext";
 import IconButton from "../../core/landing/IconButton";
+import ProfileMenu from "../profile/ProfileMenu";
 import logo from "../../../asset/images/logo.png";
 import avatar from "../../../asset/images/profile_photo.png";
 import "./Navbar.css";
@@ -11,6 +12,7 @@ import "./Navbar.css";
 const Navbar = ({ searchValue = "", onSearch, onSellClick }) => {
   const navigate = useNavigate();
   const { cartTotal, cartCount } = useCart();
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleSearch = (e) => {
     if (onSearch) onSearch(e.target.value);
@@ -41,9 +43,14 @@ const Navbar = ({ searchValue = "", onSearch, onSellClick }) => {
         <IconButton icon={MdChat} badge={1} />
         <IconButton icon={MdNotifications} badge={1} />
 
-        <button className="avartar">
-          <img src={avatar} alt="avatar" />
-        </button>
+        <div className="avatar-wrapper">
+          <button className="avartar" onClick={() => setShowProfileMenu((v) => !v)}>
+            <img src={avatar} alt="avatar" />
+          </button>
+          {showProfileMenu && (
+            <ProfileMenu onClose={() => setShowProfileMenu(false)} />
+          )}
+        </div>
 
         <button className="sell-btn" onClick={onSellClick}>SELL</button>
       </div>

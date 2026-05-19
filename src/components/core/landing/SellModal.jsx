@@ -13,6 +13,13 @@ const EMPTY_FORM = {
   description: "",
 };
 
+const toDataURL = (file) =>
+  new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(e.target.result);
+    reader.readAsDataURL(file);
+  });
+
 const EMPTY_SPEC = { label: "", value: "" };
 
 const SellModal = ({ onClose, onSubmit }) => {
@@ -21,11 +28,26 @@ const SellModal = ({ onClose, onSubmit }) => {
   const [specifications, setSpecifications] = useState([]);
   const [newSpec, setNewSpec] = useState(EMPTY_SPEC);
   const [specError, setSpecError] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImageFile(file);
+    setImagePreview(await toDataURL(file));
+    setErrors((prev) => ({ ...prev, image: "" }));
+  };
+
+  const handleRemoveImage = () => {
+    setImageFile(null);
+    setImagePreview("");
   };
 
   const handleSpecFieldChange = (e) => {
@@ -57,7 +79,8 @@ const SellModal = ({ onClose, onSubmit }) => {
       newErrors.aggregate = "Enter a valid quantity.";
     if (!form.inStock || isNaN(form.inStock) || Number(form.inStock) <= 0)
       newErrors.inStock = "Enter number of available stock.";
-    if (!form.description.trim()) newErrors.description= "Description is required.";
+    if (!form.description.trim()) newErrors.description = "Description is required.";
+    if (!imageFile) newErrors.image = "Product image is required.";
     return newErrors;
   };
 
@@ -76,6 +99,7 @@ const SellModal = ({ onClose, onSubmit }) => {
       aggregate: Number(form.aggregate),
       inStock: Number(form.inStock),
       description: form.description.trim(),
+      image: imagePreview,
       specifications,
       rating: 0,
       reviewCount: 0,
@@ -97,7 +121,7 @@ const SellModal = ({ onClose, onSubmit }) => {
     <div className="sell-modal-overlay" onClick={handleOverlayClick}>
       <div className="sell-modal">
         <div className="sell-modal-header">
-          <h2>List a Product for Sale</h2>
+          <h2>Add a Product for Sale</h2>
           <button className="sell-modal-close" onClick={onClose}>&#x2715;</button>
         </div>
 
@@ -190,7 +214,7 @@ const SellModal = ({ onClose, onSubmit }) => {
               rows={3}
               placeholder="Describe your product..."
             />
-             {errors.description && <span className="sell-error">{errors.description}</span>}
+            {errors.description && <span className="sell-error">{errors.description}</span>}
           </div>
 
           {/* Specifications */}
@@ -236,9 +260,34 @@ const SellModal = ({ onClose, onSubmit }) => {
             {specError && <span className="sell-error">{specError}</span>}
           </div>
 
+          <div className="sell-form-group">
+            <label>Product Image <span className="required">*</span></label>
+            {imagePreview ? (
+              <div className="image-preview-wrap">
+                <img src={imagePreview} alt="Product preview" className="image-preview" />
+                <button type="button" className="image-remove-btn" onClick={handleRemoveImage}>
+                  &#x2715; Remove
+                </button>
+              </div>
+            ) : (
+              <label className="image-upload-area">
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+                <span className="image-upload-icon">&#128247;</span>
+                <span className="image-upload-text">Click to upload image</span>
+                <span className="image-upload-hint">PNG, JPG, WEBP up to 10MB</span>
+              </label>
+            )}
+            {errors.image && <span className="sell-error">{errors.image}</span>}
+          </div>
+
           <div className="sell-modal-actions">
             <button type="button" className="sell-cancel-btn" onClick={onClose}>Cancel</button>
-            <button type="submit" className="sell-submit-btn">List Product</button>
+            <button type="submit" className="sell-submit-btn">Add Product</button>
           </div>
 
         </form>
