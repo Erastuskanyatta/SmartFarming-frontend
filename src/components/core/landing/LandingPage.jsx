@@ -6,7 +6,7 @@ import './LandingPage.css';
 import Footer from "../../shared/footer/Footer";
 import CategoryList from "./CategoryList";
 import ProductGrid from "./ProductGrid";
-import ProductBanners from "./ProductBanners";
+// import ProductBanners from "./ProductBanners";
 import Navbar from "../../shared/navbar/Navbar";
 import SellModal from "./SellModal";
 
@@ -49,7 +49,7 @@ const LandingPage = () => {
                                 </div>
                                 <div className="content-area">
 
-                                    <ProductBanners />
+                                    {/* <ProductBanners /> */}
 
                                     <ProductGrid
                                         products={products}
