@@ -35,3 +35,57 @@
   text-align: center;
   color: white;
 }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .navbar {
+    height: 210px;
+  }
+
+  .navbar-logo {
+    left: 16px;
+    top: 14px;
+  }
+
+  .navbar-logo img {
+    height: 40px;
+    width: auto;
+  }
+
+  .navbar-top-right {
+    right: 12px;
+    top: 14px;
+    gap: 8px;
+  }
+
+  .cart-total {
+    display: none;
+  }
+
+  .search-box {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    height: 190px;
+  }
+
+  .navbar-top-right {
+    gap: 5px;
+  }
+
+  .sell-btn {
+    display: none;
+  }
+
+  .search-text {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+
+  .search-box {
+    width: 90vw;
+  }
+}

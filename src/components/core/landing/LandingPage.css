@@ -461,3 +461,64 @@
   object-fit: cover;
   border-radius: 8px;
 }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .page-body {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin-left: 0;
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .newsletter {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .newsletter-form {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .newsletter-input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .newsletter-button {
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .product-banners {
+    flex-direction: column;
+  }
+
+  :where(.banner-main, .banner-side) {
+    height: 130px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-links {
+    gap: 10px;
+  }
+
+  .footer-links a {
+    font-size: 12px;
+  }
+
+  .social-btn {
+    width: 36px;
+    height: 36px;
+  }
+}
