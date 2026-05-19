@@ -8,7 +8,7 @@ import logo from "../../../asset/images/logo.png";
 import avatar from "../../../asset/images/profile_photo.png";
 import "./Navbar.css";
 
-const Navbar = ({ searchValue = "", onSearch }) => {
+const Navbar = ({ searchValue = "", onSearch, onSellClick }) => {
   const navigate = useNavigate();
   const { cartTotal, cartCount } = useCart();
 
@@ -45,7 +45,7 @@ const Navbar = ({ searchValue = "", onSearch }) => {
           <img src={avatar} alt="avatar" />
         </button>
 
-        <button className="sell-btn">SELL</button>
+        <button className="sell-btn" onClick={onSellClick}>SELL</button>
       </div>
 
       <div className="navbar-search-section">

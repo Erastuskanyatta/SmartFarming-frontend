@@ -35,3 +35,11 @@
   text-align: center;
   color: white;
 }
+
+.sell-btn{
+  padding: 10px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}

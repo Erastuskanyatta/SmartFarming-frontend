@@ -13,7 +13,10 @@ const ProductGrid = ({ products, onSelect, searchKey, selectedCategory }) => {
 
             <div className="product-image-wrapper">
               <button className="product-image-btn" onClick={() => onSelect(product)}>
-                <img src={product.imageURL} alt={product.productName} />
+                {product.imageURL
+                  ? <img src={product.imageURL} alt={product.productName} />
+                  : <div className="product-img-placeholder">{product.categoryName}</div>
+                }
               </button>
             </div>
 
