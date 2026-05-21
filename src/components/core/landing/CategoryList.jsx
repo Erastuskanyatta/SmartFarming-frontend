@@ -2,8 +2,6 @@ import React from "react";
 import { MdPhoneAndroid, MdCheckroom, MdHome } from "react-icons/md";
 
 import Category from "./Category";
- 
-import { products } from "./products";
 
 const categoryConfig = [
     { categoryName: "Grains", icon: MdPhoneAndroid },
@@ -11,12 +9,12 @@ const categoryConfig = [
     { categoryName: "Fisheries", icon: MdHome },
 ];
 
-const categories = categoryConfig.map(cat => ({
-    ...cat,
-    total: products.filter(p => p.categoryName === cat.categoryName).length,
-}));
+const CategoryList = ({ products, setSelectedCategory }) => {
+    const categories = categoryConfig.map(cat => ({
+        ...cat,
+        total: products.filter(p => p.categoryName === cat.categoryName).length,
+    }));
 
-const CategoryList = ({ setSelectedCategory }) => {
     return (
         <div className="category-sidebar">
             <p className="category-title">CATEGORIES</p>
