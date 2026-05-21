@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SellModal.css";
 
-const CATEGORIES = ["Animals", "Grains", "Fisheries"];
+import ApiService from "../../../services/ApiService";
 
 const EMPTY_FORM = {
   productName: "",
@@ -23,6 +23,7 @@ const toDataURL = (file) =>
 const EMPTY_SPEC = { label: "", value: "" };
 
 const SellModal = ({ onClose, onSubmit }) => {
+  const [categories, setCategories] = useState([]);
   const [form, setForm] = useState(EMPTY_FORM);
   const [errors, setErrors] = useState({});
   const [specifications, setSpecifications] = useState([]);
@@ -117,6 +118,12 @@ const SellModal = ({ onClose, onSubmit }) => {
     if (e.target === e.currentTarget) onClose();
   };
 
+  useEffect(() => {
+    ApiService.getCategories()
+      .then(res => setCategories(res.data))
+      .catch(err => console.error("Failed to load categories", err));
+  }, []);
+
   return (
     <div className="sell-modal-overlay" onClick={handleOverlayClick}>
       <div className="sell-modal">
@@ -143,8 +150,8 @@ const SellModal = ({ onClose, onSubmit }) => {
             <label>Category <span className="required">*</span></label>
             <select name="categoryName" value={form.categoryName} onChange={handleChange}>
               <option value="">-- Select a category --</option>
-              {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
+              {categories.map((cat) => (
+                <option value={cat.categoryName}>{cat.categoryName}</option>
               ))}
             </select>
             {errors.categoryName && <span className="sell-error">{errors.categoryName}</span>}

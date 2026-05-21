@@ -1,27 +1,46 @@
-import React from "react";
-import { MdPhoneAndroid, MdCheckroom, MdHome } from "react-icons/md";
+import React, { useState, useEffect } from "react";
+import {
+    MdGrain, MdPets, MdEco, MdLocalFlorist, MdLocalDrink,
+    MdWater, MdYard, MdCategory
+} from "react-icons/md";
 
 import Category from "./Category";
+import ApiService from "../../../services/ApiService";
 
-const categoryConfig = [
-    { categoryName: "Grains", icon: MdPhoneAndroid },
-    { categoryName: "Animals", icon: MdCheckroom },
-    { categoryName: "Fisheries", icon: MdHome },
-];
+const ICON_MAP = {
+    Grains: MdGrain,
+    Animals: MdPets,
+    Vegetables: MdEco,
+    Fruits: MdLocalFlorist,
+    Dairy: MdLocalDrink,
+    Poultry: MdPets,
+    Aquaculture: MdWater,
+    Fertilizers: MdYard,
+};
 
 const CategoryList = ({ products, setSelectedCategory }) => {
-    const categories = categoryConfig.map(cat => ({
+    const [categories, setCategories] = useState([]);
+
+      const categoriesWithMeta = categories.map(cat => ({
         ...cat,
+        icon: ICON_MAP[cat.categoryName] ?? MdCategory,
         total: products.filter(p => p.categoryName === cat.categoryName).length,
     }));
 
+    useEffect(() => {
+        ApiService.getCategories()
+            .then(res => setCategories(res.data))
+            .catch(err => console.error("Failed to load categories", err));
+    }, []);
+
+  
     return (
         <div className="category-sidebar">
             <p className="category-title">CATEGORIES</p>
 
-            {categories.map((cat, i) => (
+            {categoriesWithMeta.map(cat => (
                 <Category
-                    key={i}
+                    key={cat.categoryId}
                     title={cat.categoryName}
                     icon={cat.icon}
                     total={cat.total}
