@@ -5,7 +5,7 @@ export const products = [
   {
     productId: 1,
     productName: "Fresh Hen Eggs",
-    categoryName: "Animals",
+    categoryName: "Fruits",
     price: 12000,
     originalPrice: 15000,
     aggregate: 50,
@@ -29,7 +29,7 @@ export const products = [
   {
     productId: 2,
     productName: "Maize (1 Bag 90kg)",
-    categoryName: "Grains",
+    categoryName: "Dairy",
     price: 3000,
     originalPrice: 3800,
     aggregate: 100,
@@ -245,7 +245,7 @@ export const products = [
   {
     productId: 11,
     productName: "Rabbit (Breeding Pair)",
-    categoryName: "Animals",
+    categoryName: "Other",
     price: 3200,
     originalPrice: 4000,
     aggregate: 15,
