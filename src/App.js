@@ -11,6 +11,8 @@ import RegisterComplete from './components/shared/auth/registerComplete/Register
 import LandingPage from './components/core/landing/LandingPage';
 import ProductDetail from './components/core/landing/ProductDetail';
 import Cart from './components/core/cart/Cart';
+import Checkout from './components/core/checkout/Checkout';
+import Payment from './components/core/checkout/Payment';
 
 import './App.css';
 import './styles.css';
@@ -32,6 +34,8 @@ const App = () => {
           <Route path="/landingpage" element={<LandingPage />} />
           <Route path="/product/:productId" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/payment" element={<Payment />} />
         </Routes>
       </Router>
     </CartProvider>

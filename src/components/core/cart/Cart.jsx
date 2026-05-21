@@ -144,7 +144,12 @@ const Cart = () => {
               <span>KSh {total.toLocaleString()}</span>
             </div>
 
-            <button className="cart-checkout-btn">PROCEED TO CHECKOUT</button>
+            <button
+              className="cart-checkout-btn"
+              onClick={() => navigate("/checkout")}
+            >
+              PROCEED TO CHECKOUT
+            </button>
 
             <button
               className="cart-continue-btn"
