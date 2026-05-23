@@ -28,7 +28,7 @@ const RegisterComplete = () => {
         setIsLoading(true);
 
         try {
-            const response = await apiService.post(`${apiService.BASE_PATH}/register-complete`, {
+            const response = await apiService.post(`${apiService.CORE_BASE_PATH}/register-complete`, {
                 email: inputs.email
             });
 

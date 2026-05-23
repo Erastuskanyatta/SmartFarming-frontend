@@ -97,7 +97,7 @@ const Cart = () => {
                       <button
                         className="cart-qty-btn"
                         onClick={() => updateQuantity(product.id, quantity + 1)}
-                        disabled={quantity >= product.aggregate}
+                        disabled={quantity >= product.stockQuantity}
                       >
                         +
                       </button>

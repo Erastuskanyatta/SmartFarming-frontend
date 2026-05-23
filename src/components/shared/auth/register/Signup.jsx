@@ -33,7 +33,7 @@ const SignUp = () => {
         setIsLoading(true);
 
         try {
-            const response = await apiService.post(`${apiService.BASE_PATH}/register`, {
+            const response = await apiService.post(`${apiService.CORE_BASE_PATH}/register`, {
                 username: inputs.username,
                 email: inputs.email,
                 password: inputs.password,

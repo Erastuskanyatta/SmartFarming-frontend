@@ -35,7 +35,7 @@ const ResetPassword = () => {
         setIsLoading(true);
 
         try {
-            const response = await apiService.post(`${apiService.BASE_PATH}/reset-password`, {
+            const response = await apiService.post(`${apiService.CORE_BASE_PATH}/reset-password`, {
                 email,
                 code: inputs.code,
                 password: inputs.password,

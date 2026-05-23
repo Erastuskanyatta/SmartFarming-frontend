@@ -33,7 +33,7 @@ const ForgetPassword = () => {
 
     try {
       const response = await apiService.post(
-        `${apiService.BASE_PATH}/forgot-password`,
+        `${apiService.CORE_BASE_PATH}/forgot-password`,
         {
           email: inputs.email,
         },

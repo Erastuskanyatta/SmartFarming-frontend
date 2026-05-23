@@ -8,8 +8,7 @@ const EMPTY_FORM = {
   categoryName: "",
   price: "",
   originalPrice: "",
-  aggregate: "",
-  inStock: "",
+  stockQuantity: "",
   description: "",
 };
 
@@ -76,10 +75,8 @@ const SellModal = ({ onClose, onSubmit }) => {
     if (!form.categoryName) newErrors.categoryName = "Please select a category.";
     if (!form.price || isNaN(form.price) || Number(form.price) <= 0)
       newErrors.price = "Enter a valid price.";
-    if (!form.aggregate || isNaN(form.aggregate) || Number(form.aggregate) <= 0)
-      newErrors.aggregate = "Enter a valid quantity.";
-    if (!form.inStock || isNaN(form.inStock) || Number(form.inStock) <= 0)
-      newErrors.inStock = "Enter number of available stock.";
+    if (!form.stockQuantity || isNaN(form.stockQuantity) || Number(form.stockQuantity) <= 0)
+      newErrors.stockQuantity = "Enter a valid stock quantity.";
     if (!form.description.trim()) newErrors.description = "Description is required.";
     if (!imageFile) newErrors.image = "Product image is required.";
     return newErrors;
@@ -97,8 +94,7 @@ const SellModal = ({ onClose, onSubmit }) => {
       categoryName: form.categoryName,
       price: Number(form.price),
       originalPrice: form.originalPrice ? Number(form.originalPrice) : Number(form.price),
-      aggregate: Number(form.aggregate),
-      inStock: Number(form.inStock),
+      stockQuantity: Number(form.stockQuantity),
       description: form.description.trim(),
       image: imagePreview,
       specifications,
@@ -184,32 +180,17 @@ const SellModal = ({ onClose, onSubmit }) => {
             </div>
           </div>
 
-          <div className="sell-form-row">
-            <div className="sell-form-group">
-              <label>Quantity Available <span className="required">*</span></label>
-              <input
-                type="number"
-                name="aggregate"
-                value={form.aggregate}
-                onChange={handleChange}
-                placeholder="e.g. 50"
-                min="1"
-              />
-              {errors.aggregate && <span className="sell-error">{errors.aggregate}</span>}
-            </div>
-
-            <div className="sell-form-group">
-              <label>In Stock <span className="required">*</span></label>
-              <input
-                type="number"
-                name="inStock"
-                value={form.inStock}
-                onChange={handleChange}
-                placeholder="e.g. 20"
-                min="1"
-              />
-              {errors.inStock && <span className="sell-error">{errors.inStock}</span>}
-            </div>
+          <div className="sell-form-group">
+            <label>Stock Quantity <span className="required">*</span></label>
+            <input
+              type="number"
+              name="stockQuantity"
+              value={form.stockQuantity}
+              onChange={handleChange}
+              placeholder="e.g. 50"
+              min="1"
+            />
+            {errors.stockQuantity && <span className="sell-error">{errors.stockQuantity}</span>}
           </div>
 
           <div className="sell-form-group">

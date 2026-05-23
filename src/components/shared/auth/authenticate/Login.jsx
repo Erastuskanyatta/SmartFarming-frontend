@@ -37,7 +37,7 @@ const Login = () => {
 
         setIsLoading(true);
         try {
-            const response = await apiService.post(`${apiService.BASE_PATH}/authenticate`,
+            const response = await apiService.post(`${apiService.CORE_BASE_PATH}/authenticate`,
                 {
                     email: inputs.email,
                     password: inputs.password

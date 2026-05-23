@@ -33,7 +33,7 @@ const VerifyUser = () => {
         setIsLoading(true);
 
         try {
-            const response = await apiService.post(`${apiService.BASE_PATH}/resend-code`, {
+            const response = await apiService.post(`${apiService.CORE_BASE_PATH}/resend-code`, {
                 email
             });
 

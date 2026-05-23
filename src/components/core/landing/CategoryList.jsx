@@ -24,7 +24,7 @@ const CategoryList = ({ products, setSelectedCategory }) => {
       const categoriesWithMeta = categories.map(cat => ({
         ...cat,
         icon: ICON_MAP[cat.categoryName] ?? MdCategory,
-        total: products.filter(p => p.categoryName === cat.categoryName).length,
+        total: products.filter(p => p.category.categoryName === cat.categoryName).length,
     }));
 
     useEffect(() => {

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_PATH = 'http://127.0.0.1:8080/api/v1';
+const CORE_BASE_PATH = 'http://127.0.0.1:8080/api/v1';
+const FILE_BASE_PATH = 'http://127.0.0.1:8090/api/v1';
 
 const apiService = axios.create({
     headers: {
@@ -35,11 +36,19 @@ const get = async (url, config = {}) => {
     }
 };
 
-const getCategories = () => get(`${BASE_PATH}/categories`);
+// core
+const getCategories = () => get(`${CORE_BASE_PATH}/categories`);
+const getProducts = () => get(`${CORE_BASE_PATH}/product`);
+
+// file 
+const getFileUrl = (fileId) => `${FILE_BASE_PATH}/files/${fileId}`;
 
 export default {
-    BASE_PATH,
+    CORE_BASE_PATH,
+    FILE_BASE_PATH,
+    getFileUrl,
     post,
     get,
-    getCategories
+    getCategories,
+    getProducts
 };
