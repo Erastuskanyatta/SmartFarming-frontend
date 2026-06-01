@@ -10,13 +10,10 @@ import Navbar from "../../shared/navbar/Navbar";
 import SellModal from "./SellModal";
 import ApiService from "../../../services/ApiService";
 
-// import { products as initialProducts } from "./products";
-
 const LandingPage = () => {
     const navigate = useNavigate();
     const [searchKey, setSearchKey] = useState("");
     const [selectedCategory, setSelectedCategory] = useState(null);
-    // const [products, setProducts] = useState(initialProducts);
     const [products, setProducts] = useState([]);
     const [showSellModal, setShowSellModal] = useState(false);
 
