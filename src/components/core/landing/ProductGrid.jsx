@@ -1,5 +1,5 @@
 import React from "react";
-import ApiService from "../../../services/ApiService";
+import SignedImage from "../../shared/SignedImage";
 
 const ProductGrid = ({ products, onSelect, searchKey, selectedCategory }) => {
   const filteredProducts = products
@@ -14,10 +14,11 @@ const ProductGrid = ({ products, onSelect, searchKey, selectedCategory }) => {
 
             <div className="product-image-wrapper">
               <button className="product-image-btn" onClick={() => onSelect(product)}>
-                {product.productFile?.fileId
-                  ? <img src={ApiService.getFileUrl(product.productFile.fileId)} alt={product.productName} />
-                  : <div className="product-img-placeholder">{product.category.categoryName}</div>
-                }
+                <SignedImage
+                  fileId={product.productFile?.[0]?.fileId}
+                  alt={product.productName}
+                  fallback={<div className="product-img-placeholder">{product.category.categoryName}</div>}
+                />
               </button>
             </div>
 

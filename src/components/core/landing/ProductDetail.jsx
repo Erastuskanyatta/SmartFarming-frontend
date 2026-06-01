@@ -6,6 +6,7 @@ import { useCart } from "../cart/CartContext";
 import Navbar from "../../shared/navbar/Navbar";
 import Footer from "../../shared/footer/Footer";
 import ApiService from "../../../services/ApiService";
+import SignedImage from "../../shared/SignedImage";
 
 import "./ProductDetail.css";
 
@@ -94,7 +95,7 @@ const ProductDetail = () => {
       <div className="pd-main">
 
         <div className="pd-image-section">
-          <img src={product.productFile?.fileId ? ApiService.getFileUrl(product.productFile.fileId) : null} alt={product.productName} className="pd-main-image" />
+          <SignedImage fileId={product.productFile?.[0]?.fileId} alt={product.productName} className="pd-main-image" />
         </div>
 
         <div className="pd-info-section">
@@ -244,7 +245,7 @@ const ProductDetail = () => {
                 className="pd-related-card"
                 onClick={() => navigate(`/product/${p.productId}`)}
               >
-                <img src={p.productFile?.fileId ? ApiService.getFileUrl(p.productFile.fileId) : null} alt={p.productName} />
+                <SignedImage fileId={p.productFile?.[0]?.fileId} alt={p.productName} />
                 <p className="pd-related-name">{p.productName}</p>
                 <p className="pd-related-price">KSh {p.price.toLocaleString()}</p>
               </div>
@@ -263,7 +264,7 @@ const ProductDetail = () => {
                 className="pd-related-card"
                 onClick={() => navigate(`/product/${p.productId}`)}
               >
-                <img src={p.productFile?.fileId ? ApiService.getFileUrl(p.productFile.fileId) : null} alt={p.productName} />
+                <SignedImage fileId={p.productFile?.[0]?.fileId} alt={p.productName} />
                 <p className="pd-related-name">{p.productName}</p>
                 <p className="pd-related-price">KSh {p.price.toLocaleString()}</p>
               </div>

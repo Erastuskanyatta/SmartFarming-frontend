@@ -40,13 +40,18 @@ const get = async (url, config = {}) => {
 const getCategories = () => get(`${CORE_BASE_PATH}/categories`);
 const getProducts = () => get(`${CORE_BASE_PATH}/product`);
 
-// file 
-const getFileUrl = (fileId) => `${FILE_BASE_PATH}/files/${fileId}`;
+// file
+const getSignedUrl = (fileId) => {
+    const fileName = Math.random().toString(36).substring(2, 10);
+    return get(`${FILE_BASE_PATH}/files/${fileId}/signed-url`, {
+        params: { download: false, fileName },
+    });
+};
 
 export default {
     CORE_BASE_PATH,
     FILE_BASE_PATH,
-    getFileUrl,
+    getSignedUrl,
     post,
     get,
     getCategories,
