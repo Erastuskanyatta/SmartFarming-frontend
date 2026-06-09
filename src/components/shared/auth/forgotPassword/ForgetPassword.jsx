@@ -32,12 +32,9 @@ const ForgetPassword = () => {
     setIsLoading(true);
 
     try {
-      const response = await apiService.post(
-        `${apiService.CORE_BASE_PATH}/forgot-password`,
-        {
+      const response = await apiService.forgotPassword({
           email: inputs.email,
-        },
-      );
+        });
 
       if (response.status === 204) {
         setMessage("A verification email have been sent to: " + inputs.email);

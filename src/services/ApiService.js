@@ -2,6 +2,7 @@ import axios from "axios";
 
 const CORE_BASE_PATH = 'http://127.0.0.1:8080/api/v1';
 const FILE_BASE_PATH = 'http://127.0.0.1:8090/api/v1';
+const AUTH_BASE_PATH = 'http://127.0.0.1:8090/api/v1/auth';
 
 const apiService = axios.create({
     headers: {
@@ -39,6 +40,7 @@ const get = async (url, config = {}) => {
 // core
 const getCategories = () => get(`${CORE_BASE_PATH}/categories`);
 const getProducts = () => get(`${CORE_BASE_PATH}/product`);
+const createProduct = (data) => post(`${CORE_BASE_PATH}/product`, data);
 
 // file
 const getSignedUrl = (fileId) => {
@@ -48,12 +50,43 @@ const getSignedUrl = (fileId) => {
     });
 };
 
+const uploadFile = (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return post(`${FILE_BASE_PATH}/files`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    });
+};
+
+// auth
+const register = (data) => post(`${AUTH_BASE_PATH}/register`, data)
+const authenticate = (data) => post(`${AUTH_BASE_PATH}/authenticate`, data)
+const verifyUser = (data) => post(`${AUTH_BASE_PATH}/verify-user`, data)
+const resendCode = (data) => post(`${AUTH_BASE_PATH}/resend-code`, data)
+const forgotPassword = (data) => post(`${AUTH_BASE_PATH}/forgot-password`, data)
+const resetPassword = (data) => post(`${AUTH_BASE_PATH}/reset-password`, data)
+const refreshToken = (data) => post(`${AUTH_BASE_PATH}/refresh-token`, data)
+const enableUser = () => post(`${AUTH_BASE_PATH}/users/{userId}/enable`)
+const updateUserEmail = (data) => post(`${AUTH_BASE_PATH}/users/{userId}/email`, data)
+
 export default {
-    CORE_BASE_PATH,
-    FILE_BASE_PATH,
+    // file 
     getSignedUrl,
-    post,
-    get,
+    uploadFile,
+
+    // core:
     getCategories,
-    getProducts
+    getProducts,
+    createProduct,
+
+    // auth
+    register,
+    authenticate,
+    verifyUser,
+    resendCode,
+    forgotPassword,
+    resetPassword,
+    refreshToken,
+    enableUser,
+    updateUserEmail,
 };

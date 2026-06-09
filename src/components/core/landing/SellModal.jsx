@@ -30,6 +30,10 @@ const SellModal = ({ onClose, onSubmit }) => {
   const [specError, setSpecError] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+  const [uploadedFileId, setUploadedFileId] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState("idle"); // idle | uploading | done | error
+  const [submitStatus, setSubmitStatus] = useState("idle"); // idle | submitting | done | error
+  const [submitError, setSubmitError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,11 +47,40 @@ const SellModal = ({ onClose, onSubmit }) => {
     setImageFile(file);
     setImagePreview(await toDataURL(file));
     setErrors((prev) => ({ ...prev, image: "" }));
+    setUploadedFileId(null);
+    setUploadStatus("uploading");
+    try {
+      const res = await ApiService.uploadFile(file);
+      setUploadedFileId(res.data.fileId);
+      setUploadStatus("done");
+    } catch {
+      setUploadStatus("error");
+      setErrors((prev) => ({ ...prev, image: "Image upload failed. Please try again." }));
+    }
   };
 
   const handleRemoveImage = () => {
     setImageFile(null);
     setImagePreview("");
+    setUploadedFileId(null);
+    setUploadStatus("idle");
+  };
+
+  // TOD0 on removing the image, call the delete endpoint to delete it from DB
+
+  const handleRetryUpload = async () => {
+    if (!imageFile) return;
+    setUploadedFileId(null);
+    setUploadStatus("uploading");
+    setErrors((prev) => ({ ...prev, image: "" }));
+    try {
+      const res = await ApiService.uploadFile(imageFile);
+      setUploadedFileId(res.data.fileId);
+      setUploadStatus("done");
+    } catch {
+      setUploadStatus("error");
+      setErrors((prev) => ({ ...prev, image: "Image upload failed. Please retry or choose a different image." }));
+    }
   };
 
   const handleSpecFieldChange = (e) => {
@@ -82,32 +115,38 @@ const SellModal = ({ onClose, onSubmit }) => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate();
+    if (uploadStatus === "uploading") newErrors.image = "Image is still uploading, please wait.";
+    if (uploadStatus === "error") newErrors.image = "Image upload failed. Please re-select the image.";
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    onSubmit({
-      productName: form.productName.trim(),
-      categoryName: form.categoryName,
-      price: Number(form.price),
-      originalPrice: form.originalPrice ? Number(form.originalPrice) : Number(form.price),
-      stockQuantity: Number(form.stockQuantity),
-      description: form.description.trim(),
-      image: imagePreview,
-      specifications,
-      rating: 0,
-      reviewCount: 0,
-      seller: "You",
-      deliveryOptions: [
-        { type: "Instant Delivery", price: 400 },
-        { type: "Pickup Station", price: 70 },
-        { type: "Door Delivery", price: 160 },
-      ],
-    });
-    onClose();
+
+    setSubmitStatus("submitting");
+    setSubmitError("");
+    try {
+      const payload = {
+        productName: form.productName.trim(),
+        categoryName: form.categoryName,
+        price: Number(form.price),
+        originalPrice: form.originalPrice ? Number(form.originalPrice) : Number(form.price),
+        stockQuantity: Number(form.stockQuantity),
+        description: form.description.trim(),
+        productFileId: uploadedFileId,
+        specifications: specifications.map((s) => ({ name: s.label, value: s.value })),
+      };
+      const res = await ApiService.createProduct(payload);
+      setSubmitStatus("done");
+      onSubmit(res.data);
+      onClose();
+    } catch (err) {
+      setSubmitStatus("error");
+      const detail = err?.data?.detail || err?.data?.message || "Failed to create product. Please try again.";
+      setSubmitError(detail);
+    }
   };
 
   const handleOverlayClick = (e) => {
@@ -253,7 +292,9 @@ const SellModal = ({ onClose, onSubmit }) => {
             {imagePreview ? (
               <div className="image-preview-wrap">
                 <img src={imagePreview} alt="Product preview" className="image-preview" />
-                <button type="button" className="image-remove-btn" onClick={handleRemoveImage}>
+                {uploadStatus === "uploading" && <span className="image-upload-status">Uploading...</span>}
+                {uploadStatus === "done" && <span className="image-upload-status image-upload-ok">Uploaded</span>}
+                <button type="button" className="image-remove-btn" onClick={handleRemoveImage} disabled={uploadStatus === "uploading"}>
                   &#x2715; Remove
                 </button>
               </div>
@@ -273,9 +314,13 @@ const SellModal = ({ onClose, onSubmit }) => {
             {errors.image && <span className="sell-error">{errors.image}</span>}
           </div>
 
+          {submitError && <p className="sell-error" style={{ marginBottom: "8px" }}>{submitError}</p>}
+
           <div className="sell-modal-actions">
-            <button type="button" className="sell-cancel-btn" onClick={onClose}>Cancel</button>
-            <button type="submit" className="sell-submit-btn">Add Product</button>
+            <button type="button" className="sell-cancel-btn" onClick={onClose} disabled={submitStatus === "submitting"}>Cancel</button>
+            <button type="submit" className="sell-submit-btn" disabled={uploadStatus === "uploading" || submitStatus === "submitting"}>
+              {uploadStatus === "uploading" ? "Uploading image..." : submitStatus === "submitting" ? "Saving..." : "Add Product"}
+            </button>
           </div>
 
         </form>

@@ -33,18 +33,15 @@ const SignUp = () => {
         setIsLoading(true);
 
         try {
-            const response = await apiService.post(`${apiService.CORE_BASE_PATH}/register`, {
-                username: inputs.username,
+            const response = await apiService.register({
                 email: inputs.email,
                 password: inputs.password,
-                confirmPassword: inputs.confirmPassword,
-                phoneNumber: inputs.phoneNumber
             });
 
-            if (response.status === 201) {
+            if (response.status === 200) {
                 setMessage('Registered successfully. Please verify your account.');
                 setTimeout(() => {
-                    navigate('/registerComplete', { state: inputs.email });
+                    navigate('/verifyUser', { state: inputs.email });
                 }, 2000);
             } else {
                 setMessage('Registration failed. Please try again.');
@@ -83,14 +80,6 @@ const SignUp = () => {
                 <form onSubmit={handleRegisterSubmit}>
                     <div className="inputs">
                         <div className="input">
-                            <img src={avatar_icon} alt="" />
-                            <input type="text" name="username" value={inputs.username || ''}
-                                onChange={handleInputs}
-                                placeholder="username" />
-                        </div>
-                    </div>
-                    <div className="inputs">
-                        <div className="input">
                             <img src={email_icon} alt="" />
                             <input type="email" name='email' value={inputs.email || ''}
                                 onChange={handleInputs}
@@ -105,23 +94,6 @@ const SignUp = () => {
                                 placeholder="password" />
                         </div>
                     </div>
-                    <div className="inputs">
-                        <div className="input">
-                            <img src={password_icon} alt="" />
-                            <input type="password" name='confirmPassword' value={inputs.confirmPassword || ''}
-                                onChange={handleInputs}
-                                placeholder="confirmPassword" />
-                        </div>
-                    </div>
-                    <div className="inputs">
-                        <div className="input">
-                            <img src={password_icon} alt="" />
-                            <input type="phone" name='phoneNumber' value={inputs.phoneNumber || ''}
-                                onChange={handleInputs}
-                                placeholder="phone" />
-                        </div>
-                    </div>
-
                     <div className="sign-up submit-container">
                         <button className='submit' type='submit' disabled={isLoading}>
                             {isLoading ? "Please wait..." : 'Sign Up'}
