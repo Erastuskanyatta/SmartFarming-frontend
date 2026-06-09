@@ -17,6 +17,7 @@ const VerifyUser = () => {
     const [inputs, setInputs] = useState({ email: emailValue || '' });
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isResending, setIsResending] = useState(false);
 
     const [action, setAction] = useState(`Verify your email account`);
 
@@ -32,7 +33,7 @@ const VerifyUser = () => {
     const handleResendCode = async (e) => {
         e.preventDefault();
 
-        setIsLoading(true);
+        setIsResending(true);
 
         try {
             const response = await apiService.resendCode({
@@ -40,7 +41,7 @@ const VerifyUser = () => {
             });
 
             if (response.status === 200) {
-                setMessage("A code has been resent to  your email");
+                setMessage("A new code has been sent to your email. Please enter it below.");
                 setTimeout(() => {
                     setMessage('');
 
@@ -58,7 +59,8 @@ const VerifyUser = () => {
             } else {
                 setMessage("Something is wrong. Try again.");
             }
-
+        } finally {
+            setIsResending(false);
         }
     }
 
@@ -125,14 +127,16 @@ const VerifyUser = () => {
                             {<img src={email_icon} alt="" />}
                             <input type="input" name='code' value={inputs.code || ''}
                                 onChange={handleInputs}
-                                placeholder="Enter 6 digits" />
+                                placeholder="Enter code" />
                         </div>
                     </div>
                     <div className="submit-container">
                         <button className='submit' type='submit' disabled={isLoading}>
                             {isLoading ? 'Please wait...' : 'Submit'}
                         </button>
-                        <div className="submit gray" onClick={handleResendCode}>Resend code </div>
+                        <div className="submit gray" onClick={handleResendCode}>
+                            {isResending ? 'Please wait...' : 'Resend code'}
+                        </div>
                     </div>
                 </form>
             </div>
