@@ -7,7 +7,6 @@ import Signup from './components/shared/auth/register/Signup'
 import ForgetPassword from './components/shared/auth/forgotPassword/ForgetPassword'
 import ResetPassword from './components/shared/auth/resetPassword/ResetPassword';
 import VerifyUser from './components/shared/auth/verifyUser/VerifyUser'
-import RegisterComplete from './components/shared/auth/registerComplete/RegisterComplete';
 import LandingPage from './components/core/landing/LandingPage';
 import ProductDetail from './components/core/landing/ProductDetail';
 import Cart from './components/core/cart/Cart';
@@ -29,7 +28,6 @@ const App = () => {
           <Route path="/forgetPassword" element={<ForgetPassword />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/verifyUser" element={<VerifyUser />} />
-          <Route path="/registerComplete" element={<RegisterComplete />} />
 
           <Route path="/landingpage" element={<LandingPage />} />
           <Route path="/product/:productId" element={<ProductDetail />} />
