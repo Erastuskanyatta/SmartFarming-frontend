@@ -59,14 +59,24 @@ const SellModal = ({ onClose, onSubmit }) => {
     }
   };
 
-  const handleRemoveImage = () => {
+  const handleRemoveImage = async () => {
     setImageFile(null);
     setImagePreview("");
-    setUploadedFileId(null);
     setUploadStatus("idle");
+    if (uploadedFileId) {
+      const MAX_RETRIES = 3;
+      for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+        try {
+          await ApiService.deleteFile(uploadedFileId);
+          break;
+        } catch {
+          if (attempt === MAX_RETRIES) break;
+          await new Promise((res) => setTimeout(res, 500 * attempt));
+        }
+      }
+    }
+    setUploadedFileId(null);
   };
-
-  // TOD0 on removing the image, call the delete endpoint to delete it from DB
 
   const handleRetryUpload = async () => {
     if (!imageFile) return;

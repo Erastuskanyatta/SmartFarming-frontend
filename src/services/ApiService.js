@@ -35,6 +35,15 @@ const get = async (url, config = {}) => {
     } catch (error) {
         throw error.response ? error.response : new Error('Network error');
     }
+}; 
+
+const del = async (url, config = {}) => {
+    try {
+        const response = await apiService.delete(url, config);
+        return response;
+    } catch (error) {
+        throw error.response ? error.response : new Error('Network error');
+    }
 };
 
 // core
@@ -58,6 +67,8 @@ const uploadFile = (file) => {
     });
 };
 
+const deleteFile = (fileId) => del(`${FILE_BASE_PATH}/files/${fileId}`)
+
 // auth
 const register = (data) => post(`${AUTH_BASE_PATH}/register`, data)
 const authenticate = (data) => post(`${AUTH_BASE_PATH}/authenticate`, data)
@@ -73,6 +84,7 @@ export default {
     // file 
     getSignedUrl,
     uploadFile,
+    deleteFile,
 
     // core:
     getCategories,
