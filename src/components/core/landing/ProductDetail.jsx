@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MdStar, MdStarHalf, MdStarOutline, MdArrowBack, MdShoppingCart, MdLocalShipping, MdStorefront } from "react-icons/md";
 
-import { products } from "./products";
 import { useCart } from "../cart/CartContext";
 import Navbar from "../../shared/navbar/Navbar";
 import Footer from "../../shared/footer/Footer";
+import ApiService from "../../../services/ApiService";
+import SignedImage from "../../shared/SignedImage";
+
 import "./ProductDetail.css";
 
 const StarRating = ({ rating }) => {
@@ -23,16 +25,35 @@ const StarRating = ({ rating }) => {
 };
 
 const ProductDetail = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { productId } = useParams();
   const navigate = useNavigate();
   const { addToCart, updateQuantity, removeFromCart, items } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
+
+  const product = products.find((p) => p.productId === productId);
+
   const handleAddToCart = () => {
     addToCart(product, quantity);
   };
 
-  const product = products.find((p) => p.productId === parseInt(productId));
+    useEffect(() => {
+    ApiService.getProducts()
+      .then(res => {
+        setProducts(res.data.content);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load products", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div className="pd-not-found"><p>Loading...</p></div>;
+  }
 
   if (!product) {
     return (
@@ -49,12 +70,12 @@ const ProductDetail = () => {
     ((product.originalPrice - product.price) / product.originalPrice) * 100
   );
 
-  const sellerProducts = products.filter(
-    (p) => p.seller === product.seller && p.productId !== product.productId
-  ).slice(0, 4);
+  const sellerProducts = product.seller
+    ? products.filter(p => p.seller === product.seller && p.productId !== product.productId).slice(0, 4)
+    : [];
 
   const relatedProducts = products.filter(
-    (p) => p.categoryName === product.categoryName && p.seller !== product.seller
+    (p) => p.category.categoryName === product.category.categoryName && p.productId !== product.productId
   ).slice(0, 4);
 
   return (
@@ -62,34 +83,33 @@ const ProductDetail = () => {
       <Navbar />
       <div className="pd-page">
 
-      {/* Top bar */}
       <div className="pd-topbar">
         <button className="pd-back-btn" onClick={() => navigate("/landingpage")}>
           <MdArrowBack size={18} /> Back
         </button>
         <span className="pd-breadcrumb">
-          {product.categoryName} &rsaquo; {product.productName}
+          {product.category.categoryName} &rsaquo; {product.productName}
         </span>
       </div>
 
-      {/* Main content */}
       <div className="pd-main">
 
-        {/* Left: Image */}
         <div className="pd-image-section">
-          <img src={product.imageURL} alt={product.productName} className="pd-main-image" />
+          <SignedImage fileId={product.productFile?.[0]?.fileId} alt={product.productName} className="pd-main-image" />
         </div>
 
-        {/* Right: Info */}
         <div className="pd-info-section">
 
-          <span className="pd-category-badge">{product.categoryName}</span>
+          <span className="pd-category-badge">{product.category.categoryName}</span>
           <h1 className="pd-title">{product.productName}</h1>
 
           <div className="pd-rating-row">
-            <StarRating rating={product.rating} />
-            <span className="pd-rating-value">{product.rating}</span>
-            <span className="pd-review-count">({product.reviewCount} ratings)</span>
+            <StarRating rating={product.rating ?? 0} />
+            {product.rating
+              ? <><span className="pd-rating-value">{product.rating}</span>
+                  <span className="pd-review-count">({product.reviewCount ?? 0} ratings)</span></>
+              : <span className="pd-review-count">No ratings yet</span>
+            }
           </div>
 
           <div className="pd-price-row">
@@ -99,12 +119,13 @@ const ProductDetail = () => {
           </div>
 
           <div className="pd-stock">
-            <span className={product.aggregate < 20 ? "pd-stock-low" : "pd-stock-ok"}>
-              {product.aggregate < 20 ? `Only ${product.aggregate} left` : `In Stock (${product.aggregate} units)`}
+            <span className={product.stockQuantity < 20 ? "pd-stock-low" : "pd-stock-ok"}>
+              {product.stockQuantity < 20
+                ? `Only ${product.stockQuantity} left`
+                : `In Stock (${product.stockQuantity} units)`}
             </span>
           </div>
 
-          {/* Quantity */}
           {(() => {
             const cartQty = items.find((i) => i.product.productId === product.productId)?.quantity ?? 0;
             const displayQty = cartQty > 0 ? cartQty : quantity;
@@ -117,7 +138,7 @@ const ProductDetail = () => {
 
             const handlePlus = () => {
               if (cartQty > 0) addToCart(product, 1);
-              else setQuantity((q) => Math.min(product.aggregate, q + 1));
+              else setQuantity((q) => Math.min(product.stockQuantity, q + 1));
             };
 
             return (
@@ -128,7 +149,7 @@ const ProductDetail = () => {
                     -
                   </button>
                   <span className="pd-qty-value">{displayQty}</span>
-                  <button className="pd-qty-btn" onClick={handlePlus} disabled={displayQty >= product.aggregate}>
+                  <button className="pd-qty-btn" onClick={handlePlus} disabled={displayQty >= product.stockQuantity}>
                     +
                   </button>
                 </div>
@@ -143,29 +164,29 @@ const ProductDetail = () => {
             <MdShoppingCart size={18} /> ADD TO CART
           </button>
 
-          {/* Delivery */}
           <div className="pd-delivery-section">
             <p className="pd-delivery-title">
               <MdLocalShipping size={16} /> Delivery Options
             </p>
-            {product.deliveryOptions.map((opt, i) => (
-              <div key={i} className="pd-delivery-row">
-                <span className="pd-delivery-type">{opt.type}</span>
-                <span className="pd-delivery-price">KSh {opt.price}</span>
-              </div>
-            ))}
+            {product.deliveryOptions?.length > 0
+              ? product.deliveryOptions.map((opt, i) => (
+                  <div key={i} className="pd-delivery-row">
+                    <span className="pd-delivery-type">{opt.type}</span>
+                    <span className="pd-delivery-price">KSh {opt.price}</span>
+                  </div>
+                ))
+              : <p className="pd-delivery-row">Delivery information not available.</p>
+            }
           </div>
 
-          {/* Seller */}
           <div className="pd-seller-section">
             <MdStorefront size={16} />
-            <span>Sold by <strong>{product.seller}</strong></span>
+            <span>Sold by <strong>{product.seller ?? "Unknown Seller"}</strong></span>
           </div>
 
         </div>
       </div>
 
-      {/* Tabs */}
       <div className="pd-tabs-section">
         <div className="pd-tabs">
           {["description", "specifications", "reviews"].map((tab) => (
@@ -183,29 +204,37 @@ const ProductDetail = () => {
           {activeTab === "description" && (
             <p className="pd-description">{product.description}</p>
           )}
-          {activeTab === "specifications" && (
-            <table className="pd-specs-table">
-              <tbody>
-                {product.specifications.map((spec, i) => (
-                  <tr key={i}>
-                    <td className="pd-spec-label">{spec.label}</td>
-                    <td className="pd-spec-value">{spec.value}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
           {activeTab === "reviews" && (
             <div className="pd-reviews-placeholder">
-              <StarRating rating={product.rating} />
-              <p>{product.rating} out of 5 — {product.reviewCount} verified ratings</p>
+              {product.rating
+                ? <>
+                    <StarRating rating={product.rating} />
+                    <p>{product.rating} out of 5 — {product.reviewCount ?? 0} verified ratings</p>
+                  </>
+                : <StarRating rating={0} />
+              }
               <p className="pd-no-reviews">No written reviews yet.</p>
             </div>
+          )}
+          {activeTab === "specifications" && (
+            product.specifications?.length > 0 ? (
+              <table className="pd-specs-table">
+                <tbody>
+                  {product.specifications.map((spec, i) => (
+                    <tr key={i}>
+                      <td className="pd-spec-label">{spec.name}</td>
+                      <td className="pd-spec-value">{spec.value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No specifications available.</p>
+            )
           )}
         </div>
       </div>
 
-      {/* More Items from this seller */}
       {sellerProducts.length > 0 && (
         <div className="pd-related-section">
           <h3 className="pd-related-title">More items from {product.seller}</h3>
@@ -216,7 +245,7 @@ const ProductDetail = () => {
                 className="pd-related-card"
                 onClick={() => navigate(`/product/${p.productId}`)}
               >
-                <img src={p.imageURL} alt={p.productName} />
+                <SignedImage fileId={p.productFile?.[0]?.fileId} alt={p.productName} />
                 <p className="pd-related-name">{p.productName}</p>
                 <p className="pd-related-price">KSh {p.price.toLocaleString()}</p>
               </div>
@@ -225,7 +254,6 @@ const ProductDetail = () => {
         </div>
       )}
 
-      {/* Related Products */}
       {relatedProducts.length > 0 && (
         <div className="pd-related-section">
           <h3 className="pd-related-title">Related Products</h3>
@@ -236,9 +264,8 @@ const ProductDetail = () => {
                 className="pd-related-card"
                 onClick={() => navigate(`/product/${p.productId}`)}
               >
-                <img src={p.imageURL} alt={p.productName} />
+                <SignedImage fileId={p.productFile?.[0]?.fileId} alt={p.productName} />
                 <p className="pd-related-name">{p.productName}</p>
-                <p className="pd-related-seller">by {p.seller}</p>
                 <p className="pd-related-price">KSh {p.price.toLocaleString()}</p>
               </div>
             ))}

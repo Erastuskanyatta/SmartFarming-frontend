@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import apiService from '../../../../services/ApiService';
-import password_icon from '../../../assets/password.png';
-import logo from '../../../../asset/images/logo.png';
+import  logo  from '../../../assets/logo.png';
+import { MdEmail, MdLock } from 'react-icons/md';
 
 import './ResetPassword.css';
 
@@ -35,11 +35,10 @@ const ResetPassword = () => {
         setIsLoading(true);
 
         try {
-            const response = await apiService.post(`${apiService.BASE_PATH}/reset-password`, {
-                email,
+            const response = await apiService.resetPassword({
+                email: inputs.email,
                 code: inputs.code,
                 password: inputs.password,
-                confirmPassword: inputs.confirmPassword
             });
 
             if (response.status === 204) {
@@ -75,29 +74,28 @@ const ResetPassword = () => {
                 <form onSubmit={handleResetPassword}>
                     <div className="inputs">
                         <div className="input">
-                            <span className='icon'><img src={password_icon} alt="" /> </span>
+                            <MdLock size={22} />
                             <input type="code" name='code' value={inputs.code || ''}
                                 onChange={handleInputs}
                                 placeholder="code" />
                         </div>
                     </div>
+                      <div className="inputs">
+                        <div className="input">
+                            <MdEmail size={22} />
+                            <input type="email" name='email' value={inputs.email || ''}
+                                onChange={handleInputs}
+                                placeholder="email" />
+                        </div>
+                    </div>
                     <div className="inputs">
                         <div className="input">
-                            <span className='icon'><img src={password_icon} alt="" /> </span>
+                            <MdLock size={22} />
                             <input type="newPassword" name='password' value={inputs.password || ''}
                                 onChange={handleInputs}
                                 placeholder="newPassword" />
                         </div>
                     </div>
-                    <div className="inputs">
-                        <div className="input">
-                            <span className='icon'><img src={password_icon} alt="" /> </span>
-                            <input type="confirmPassword" name='confirmPassword' value={inputs.confirmPassword || ''}
-                                onChange={handleInputs}
-                                placeholder="confirmPassword" />
-                        </div>
-                    </div>
-
                     <div className="submit-container">
                         <button className='submit' type='submit' disabled={IsLoading}>
                             {IsLoading ? 'Please wait...' : 'Submit'}

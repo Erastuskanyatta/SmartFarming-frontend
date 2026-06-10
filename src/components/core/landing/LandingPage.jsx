@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import './LandingPage.css';
@@ -8,14 +8,13 @@ import CategoryList from "./CategoryList";
 import ProductGrid from "./ProductGrid";
 import Navbar from "../../shared/navbar/Navbar";
 import SellModal from "./SellModal";
-
-import { products as initialProducts } from "./products";
+import ApiService from "../../../services/ApiService";
 
 const LandingPage = () => {
     const navigate = useNavigate();
     const [searchKey, setSearchKey] = useState("");
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [products, setProducts] = useState(initialProducts);
+    const [products, setProducts] = useState([]);
     const [showSellModal, setShowSellModal] = useState(false);
 
     const handleAddProduct = (newProduct) => {
@@ -25,6 +24,12 @@ const LandingPage = () => {
             { ...newProduct, productId: nextId, imageURL: null },
         ]);
     };
+
+    useEffect(() => {
+        ApiService.getProducts()
+            .then(res => setProducts(res.data.content))
+            .catch(err => console.error("Failed to load products", err));
+    }, []);
 
     return (
         <div className="page-container">

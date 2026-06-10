@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SellModal.css";
 
-const CATEGORIES = ["Animals", "Grains", "Fisheries"];
+import ApiService from "../../../services/ApiService";
 
 const EMPTY_FORM = {
   productName: "",
   categoryName: "",
   price: "",
   originalPrice: "",
-  aggregate: "",
-  inStock: "",
+  stockQuantity: "",
   description: "",
 };
 
@@ -23,6 +22,7 @@ const toDataURL = (file) =>
 const EMPTY_SPEC = { label: "", value: "" };
 
 const SellModal = ({ onClose, onSubmit }) => {
+  const [categories, setCategories] = useState([]);
   const [form, setForm] = useState(EMPTY_FORM);
   const [errors, setErrors] = useState({});
   const [specifications, setSpecifications] = useState([]);
@@ -30,6 +30,10 @@ const SellModal = ({ onClose, onSubmit }) => {
   const [specError, setSpecError] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+  const [uploadedFileId, setUploadedFileId] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState("idle"); // idle | uploading | done | error
+  const [submitStatus, setSubmitStatus] = useState("idle"); // idle | submitting | done | error
+  const [submitError, setSubmitError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,11 +47,50 @@ const SellModal = ({ onClose, onSubmit }) => {
     setImageFile(file);
     setImagePreview(await toDataURL(file));
     setErrors((prev) => ({ ...prev, image: "" }));
+    setUploadedFileId(null);
+    setUploadStatus("uploading");
+    try {
+      const res = await ApiService.uploadFile(file);
+      setUploadedFileId(res.data.fileId);
+      setUploadStatus("done");
+    } catch {
+      setUploadStatus("error");
+      setErrors((prev) => ({ ...prev, image: "Image upload failed. Please try again." }));
+    }
   };
 
-  const handleRemoveImage = () => {
+  const handleRemoveImage = async () => {
     setImageFile(null);
     setImagePreview("");
+    setUploadStatus("idle");
+    if (uploadedFileId) {
+      const MAX_RETRIES = 3;
+      for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+        try {
+          await ApiService.deleteFile(uploadedFileId);
+          break;
+        } catch {
+          if (attempt === MAX_RETRIES) break;
+          await new Promise((res) => setTimeout(res, 500 * attempt));
+        }
+      }
+    }
+    setUploadedFileId(null);
+  };
+
+  const handleRetryUpload = async () => {
+    if (!imageFile) return;
+    setUploadedFileId(null);
+    setUploadStatus("uploading");
+    setErrors((prev) => ({ ...prev, image: "" }));
+    try {
+      const res = await ApiService.uploadFile(imageFile);
+      setUploadedFileId(res.data.fileId);
+      setUploadStatus("done");
+    } catch {
+      setUploadStatus("error");
+      setErrors((prev) => ({ ...prev, image: "Image upload failed. Please retry or choose a different image." }));
+    }
   };
 
   const handleSpecFieldChange = (e) => {
@@ -75,47 +118,56 @@ const SellModal = ({ onClose, onSubmit }) => {
     if (!form.categoryName) newErrors.categoryName = "Please select a category.";
     if (!form.price || isNaN(form.price) || Number(form.price) <= 0)
       newErrors.price = "Enter a valid price.";
-    if (!form.aggregate || isNaN(form.aggregate) || Number(form.aggregate) <= 0)
-      newErrors.aggregate = "Enter a valid quantity.";
-    if (!form.inStock || isNaN(form.inStock) || Number(form.inStock) <= 0)
-      newErrors.inStock = "Enter number of available stock.";
+    if (!form.stockQuantity || isNaN(form.stockQuantity) || Number(form.stockQuantity) <= 0)
+      newErrors.stockQuantity = "Enter a valid stock quantity.";
     if (!form.description.trim()) newErrors.description = "Description is required.";
     if (!imageFile) newErrors.image = "Product image is required.";
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate();
+    if (uploadStatus === "uploading") newErrors.image = "Image is still uploading, please wait.";
+    if (uploadStatus === "error") newErrors.image = "Image upload failed. Please re-select the image.";
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    onSubmit({
-      productName: form.productName.trim(),
-      categoryName: form.categoryName,
-      price: Number(form.price),
-      originalPrice: form.originalPrice ? Number(form.originalPrice) : Number(form.price),
-      aggregate: Number(form.aggregate),
-      inStock: Number(form.inStock),
-      description: form.description.trim(),
-      image: imagePreview,
-      specifications,
-      rating: 0,
-      reviewCount: 0,
-      seller: "You",
-      deliveryOptions: [
-        { type: "Instant Delivery", price: 400 },
-        { type: "Pickup Station", price: 70 },
-        { type: "Door Delivery", price: 160 },
-      ],
-    });
-    onClose();
+
+    setSubmitStatus("submitting");
+    setSubmitError("");
+    try {
+      const payload = {
+        productName: form.productName.trim(),
+        categoryName: form.categoryName,
+        price: Number(form.price),
+        originalPrice: form.originalPrice ? Number(form.originalPrice) : Number(form.price),
+        stockQuantity: Number(form.stockQuantity),
+        description: form.description.trim(),
+        productFileId: uploadedFileId,
+        specifications: specifications.map((s) => ({ name: s.label, value: s.value })),
+      };
+      const res = await ApiService.createProduct(payload);
+      setSubmitStatus("done");
+      onSubmit(res.data);
+      onClose();
+    } catch (err) {
+      setSubmitStatus("error");
+      const detail = err?.data?.detail || err?.data?.message || "Failed to create product. Please try again.";
+      setSubmitError(detail);
+    }
   };
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose();
   };
+
+  useEffect(() => {
+    ApiService.getCategories()
+      .then(res => setCategories(res.data))
+      .catch(err => console.error("Failed to load categories", err));
+  }, []);
 
   return (
     <div className="sell-modal-overlay" onClick={handleOverlayClick}>
@@ -143,8 +195,8 @@ const SellModal = ({ onClose, onSubmit }) => {
             <label>Category <span className="required">*</span></label>
             <select name="categoryName" value={form.categoryName} onChange={handleChange}>
               <option value="">-- Select a category --</option>
-              {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
+              {categories.map((cat) => (
+                <option value={cat.categoryName}>{cat.categoryName}</option>
               ))}
             </select>
             {errors.categoryName && <span className="sell-error">{errors.categoryName}</span>}
@@ -177,32 +229,17 @@ const SellModal = ({ onClose, onSubmit }) => {
             </div>
           </div>
 
-          <div className="sell-form-row">
-            <div className="sell-form-group">
-              <label>Quantity Available <span className="required">*</span></label>
-              <input
-                type="number"
-                name="aggregate"
-                value={form.aggregate}
-                onChange={handleChange}
-                placeholder="e.g. 50"
-                min="1"
-              />
-              {errors.aggregate && <span className="sell-error">{errors.aggregate}</span>}
-            </div>
-
-            <div className="sell-form-group">
-              <label>In Stock <span className="required">*</span></label>
-              <input
-                type="number"
-                name="inStock"
-                value={form.inStock}
-                onChange={handleChange}
-                placeholder="e.g. 20"
-                min="1"
-              />
-              {errors.inStock && <span className="sell-error">{errors.inStock}</span>}
-            </div>
+          <div className="sell-form-group">
+            <label>Stock Quantity <span className="required">*</span></label>
+            <input
+              type="number"
+              name="stockQuantity"
+              value={form.stockQuantity}
+              onChange={handleChange}
+              placeholder="e.g. 50"
+              min="1"
+            />
+            {errors.stockQuantity && <span className="sell-error">{errors.stockQuantity}</span>}
           </div>
 
           <div className="sell-form-group">
@@ -265,7 +302,9 @@ const SellModal = ({ onClose, onSubmit }) => {
             {imagePreview ? (
               <div className="image-preview-wrap">
                 <img src={imagePreview} alt="Product preview" className="image-preview" />
-                <button type="button" className="image-remove-btn" onClick={handleRemoveImage}>
+                {uploadStatus === "uploading" && <span className="image-upload-status">Uploading...</span>}
+                {uploadStatus === "done" && <span className="image-upload-status image-upload-ok">Uploaded</span>}
+                <button type="button" className="image-remove-btn" onClick={handleRemoveImage} disabled={uploadStatus === "uploading"}>
                   &#x2715; Remove
                 </button>
               </div>
@@ -285,9 +324,13 @@ const SellModal = ({ onClose, onSubmit }) => {
             {errors.image && <span className="sell-error">{errors.image}</span>}
           </div>
 
+          {submitError && <p className="sell-error" style={{ marginBottom: "8px" }}>{submitError}</p>}
+
           <div className="sell-modal-actions">
-            <button type="button" className="sell-cancel-btn" onClick={onClose}>Cancel</button>
-            <button type="submit" className="sell-submit-btn">Add Product</button>
+            <button type="button" className="sell-cancel-btn" onClick={onClose} disabled={submitStatus === "submitting"}>Cancel</button>
+            <button type="submit" className="sell-submit-btn" disabled={uploadStatus === "uploading" || submitStatus === "submitting"}>
+              {uploadStatus === "uploading" ? "Uploading image..." : submitStatus === "submitting" ? "Saving..." : "Add Product"}
+            </button>
           </div>
 
         </form>

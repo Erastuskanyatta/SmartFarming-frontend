@@ -24,3 +24,4 @@ yarn-error.log*
 
 /src/asset
 /src/components/assets
+.claude

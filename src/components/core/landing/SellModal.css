@@ -268,6 +268,41 @@
   color: white;
 }
 
+.image-remove-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.image-retry-btn {
+  background: none;
+  border: 1px solid #f57c00;
+  color: #f57c00;
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.image-retry-btn:hover {
+  background: #f57c00;
+  color: white;
+}
+
+.image-upload-status {
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.image-upload-status.image-upload-ok {
+  color: #2e7d32;
+}
+
 .sell-modal-actions {
   display: flex;
   justify-content: flex-end;

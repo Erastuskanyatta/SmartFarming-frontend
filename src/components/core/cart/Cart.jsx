@@ -11,6 +11,7 @@ import { useCart } from "./CartContext";
 import Navbar from "../../shared/navbar/Navbar";
 import Footer from "../../shared/footer/Footer";
 import "./Cart.css";
+import SignedImage from "../../shared/SignedImage";
 
 const DELIVERY_FEE = 160; // constant delivery fee for now, can be made dynamic based on location or other factors in the future
 
@@ -64,18 +65,14 @@ const Cart = () => {
           {/* Left: Items */}
           <div className="cart-items">
             {items.map(({ product, quantity }) => (
-              <div key={product.id} className="cart-item">
-                <img
-                  src={product.imageURL}
-                  alt={product.productName}
-                  className="cart-item-img"
-                  onClick={() => navigate(`/product/${product.id}`)}
-                />
+              <div key={product.productId} className="cart-item">
+               
+                <SignedImage fileId={product.productFile?.[0]?.fileId} alt={product.productName} className="cart-item-img" />
 
                 <div className="cart-item-details">
                   <p
                     className="cart-item-name"
-                    onClick={() => navigate(`/product/${product.id}`)}
+                    onClick={() => navigate(`/product/${product.productId}`)}
                   >
                     {product.productName}
                   </p>
@@ -88,7 +85,7 @@ const Cart = () => {
                     <div className="cart-qty-control">
                       <button
                         className="cart-qty-btn"
-                        onClick={() => updateQuantity(product.id, quantity - 1)}
+                        onClick={() => updateQuantity(product.productId, quantity - 1)}
                         disabled={quantity <= 1}
                       >
                         -
@@ -96,8 +93,8 @@ const Cart = () => {
                       <span className="cart-qty-value">{quantity}</span>
                       <button
                         className="cart-qty-btn"
-                        onClick={() => updateQuantity(product.id, quantity + 1)}
-                        disabled={quantity >= product.aggregate}
+                        onClick={() => updateQuantity(product.productId, quantity + 1)}
+                        disabled={quantity >= product.stockQuantity}
                       >
                         +
                       </button>
@@ -105,7 +102,7 @@ const Cart = () => {
 
                     <button
                       className="cart-remove-btn"
-                      onClick={() => removeFromCart(product.id)}
+                      onClick={() => removeFromCart(product.productId)}
                     >
                       <MdDelete size={18} /> Remove
                     </button>
