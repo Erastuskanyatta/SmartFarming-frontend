@@ -8,7 +8,7 @@ import {
   MdExitToApp,
   MdChevronRight,
 } from "react-icons/md";
-import avatar from "../../../asset/images/profile_photo.png";
+import avatar from "../../assets/profile_photo.png";
 import "./ProfileMenu.css";
 
 const menuItems = [

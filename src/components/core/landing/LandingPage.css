@@ -1,5 +1,5 @@
 .navigationBar {
-  background-image: url("../../../asset/images/try.jpg");
+  background-image: url("../../assets/try.jpg");
   height: 270px;
 
   display: flex;
@@ -173,7 +173,7 @@
 /*  footer */
 
 .footer {
-  background-image: url("../../../asset/images/footer.png");
+  background-image: url("../../assets/footer.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -3,9 +3,8 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import apiService from '../../../../services/ApiService';
-import password_icon from '../../../assets/password.png';
-import logo from '../../../../asset/images/logo.png';
-import email_icon from '../../../assets/email.png';
+import  logo  from '../../../assets/logo.png';
+import { MdEmail, MdLock } from 'react-icons/md';
 
 import './ResetPassword.css';
 
@@ -75,7 +74,7 @@ const ResetPassword = () => {
                 <form onSubmit={handleResetPassword}>
                     <div className="inputs">
                         <div className="input">
-                            <span className='icon'><img src={password_icon} alt="" /> </span>
+                            <MdLock size={22} />
                             <input type="code" name='code' value={inputs.code || ''}
                                 onChange={handleInputs}
                                 placeholder="code" />
@@ -83,7 +82,7 @@ const ResetPassword = () => {
                     </div>
                       <div className="inputs">
                         <div className="input">
-                            <img src={email_icon} alt="" />
+                            <MdEmail size={22} />
                             <input type="email" name='email' value={inputs.email || ''}
                                 onChange={handleInputs}
                                 placeholder="email" />
@@ -91,7 +90,7 @@ const ResetPassword = () => {
                     </div>
                     <div className="inputs">
                         <div className="input">
-                            <span className='icon'><img src={password_icon} alt="" /> </span>
+                            <MdLock size={22} />
                             <input type="newPassword" name='password' value={inputs.password || ''}
                                 onChange={handleInputs}
                                 placeholder="newPassword" />

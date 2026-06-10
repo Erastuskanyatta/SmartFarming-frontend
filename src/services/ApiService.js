@@ -2,7 +2,7 @@ import axios from "axios";
 
 const CORE_BASE_PATH = 'http://127.0.0.1:8080/api/v1';
 const FILE_BASE_PATH = 'http://127.0.0.1:8090/api/v1';
-const AUTH_BASE_PATH = 'http://127.0.0.1:8090/api/v1/auth';
+const AUTH_BASE_PATH = 'http://127.0.0.1:9090/api/v1/auth';
 
 const apiService = axios.create({
     headers: {

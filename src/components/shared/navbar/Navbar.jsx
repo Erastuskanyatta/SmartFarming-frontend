@@ -5,8 +5,8 @@ import { MdChat, MdNotifications, MdShoppingCart, MdSearch } from "react-icons/m
 import { useCart } from "../../core/cart/CartContext";
 import IconButton from "../../core/landing/IconButton";
 import ProfileMenu from "../profile/ProfileMenu";
-import logo from "../../../asset/images/logo.png";
-import avatar from "../../../asset/images/profile_photo.png";
+import logo from "../../assets/logo.png";
+import avatar from "../../assets/profile_photo.png";
 import "./Navbar.css";
 
 const Navbar = ({ searchValue = "", onSearch, onSellClick }) => {

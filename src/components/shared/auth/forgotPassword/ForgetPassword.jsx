@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import apiService from "../../../../services/ApiService";
-import email_icon from "../../../assets/email.png";
-import logo from "../../../../asset/images/logo.png";
+import { MdEmail} from 'react-icons/md';
+import  logo  from '../../../assets/logo.png';
 
 import "./ForgetPassword.css";
 
@@ -68,7 +68,7 @@ const ForgetPassword = () => {
         <form onSubmit={handleVerificationCodeSubmit}>
           <div className="inputs">
             <div className="input">
-              {<img src={email_icon} alt="" />}
+              <MdEmail size={22} />
               <input
                 type="email"
                 name="email"

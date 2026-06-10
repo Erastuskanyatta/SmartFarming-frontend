@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 
 import apiService from '../../../../services/ApiService';
-import email_icon from '../../../assets/email.png';
-import password_icon from '../../../assets/password.png';
-import logo from '../../../../asset/images/logo.png';
+
+import { MdEmail, MdLock } from 'react-icons/md';
+import  logo  from '../../../assets/logo.png';
 
 import './Login.css';
 
@@ -84,7 +84,7 @@ const Login = () => {
                 <form onSubmit={handleOnLogin}>
                     <div className="inputs">
                         <div className="input">
-                            <img src={email_icon} alt="" />
+                            <MdEmail size={22} />
                             <input type="text" name='email' value={inputs.email || ''}
                                 onChange={handleInputs}
                                 placeholder="email" />
@@ -92,7 +92,7 @@ const Login = () => {
                     </div>
                     <div className="inputs">
                         <div className="input">
-                            <span className='icon'><img src={password_icon} alt="" /> </span>
+                            <MdLock size={22} />
                             <input type="password" name='password' value={inputs.password || ''}
                                 onChange={handleInputs}
                                 placeholder="password" />

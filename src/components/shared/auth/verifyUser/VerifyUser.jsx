@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import apiService from '../../../../services/ApiService';
-import email_icon from '../../../assets/email.png';
-import logo from '../../../../asset/images/logo.png';
+import { MdEmail } from 'react-icons/md';
+import  logo  from '../../../assets/logo.png';
 
 
 import './VerifyUser.css';
@@ -12,7 +12,6 @@ import './VerifyUser.css';
 const VerifyUser = () => {
     const location = useLocation();
     const emailValue = location.state;
-
 
     const [inputs, setInputs] = useState({ email: emailValue || '' });
     const [message, setMessage] = useState('');
@@ -116,7 +115,7 @@ const VerifyUser = () => {
                 <form onSubmit={handleEmailVerificationCode}>
                     <div className="inputs">
                         <div className="input">
-                            <img src={email_icon} alt="" />
+                            <MdEmail size={22} />
                             <input type="email" name='email' value={inputs.email || ''}
                                 onChange={handleInputs}
                                 placeholder="email" />
@@ -124,7 +123,7 @@ const VerifyUser = () => {
                     </div>
                     <div className="inputs">
                         <div className="input">
-                            {<img src={email_icon} alt="" />}
+                            <MdEmail size={22} />
                             <input type="input" name='code' value={inputs.code || ''}
                                 onChange={handleInputs}
                                 placeholder="Enter code" />
