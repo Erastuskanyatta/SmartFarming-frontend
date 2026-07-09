@@ -26,10 +26,18 @@ const LandingPage = () => {
     };
 
     useEffect(() => {
-        ApiService.getProducts()
-            .then(res => setProducts(res.data.content))
-            .catch(err => console.error("Failed to load products", err));
-    }, []);
+        const timer = setTimeout(() => {
+            const request = searchKey.trim()
+                ? ApiService.searchProducts({ query: searchKey })
+                : ApiService.getProducts();
+
+            request
+                .then(res => setProducts(res.data.content))
+                .catch(err => console.error("Failed to load products", err));
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [searchKey]);
 
     return (
         <div className="page-container">
@@ -55,7 +63,6 @@ const LandingPage = () => {
 
                                     <ProductGrid
                                         products={products}
-                                        searchKey={searchKey}
                                         selectedCategory={selectedCategory}
                                         onSelect={(p) => navigate(`/product/${p.productId}`)}
                                     />

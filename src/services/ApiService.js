@@ -50,6 +50,7 @@ const del = async (url, config = {}) => {
 const getCategories = () => get(`${CORE_BASE_PATH}/categories`);
 const getProducts = () => get(`${CORE_BASE_PATH}/product`);
 const createProduct = (data) => post(`${CORE_BASE_PATH}/product`, data);
+const searchProducts = (data) => post(`${CORE_BASE_PATH}/products/search`, data);
 
 // file
 const getSignedUrl = (fileId) => {
@@ -90,6 +91,7 @@ export default {
     getCategories,
     getProducts,
     createProduct,
+    searchProducts,
 
     // auth
     register,
