@@ -1,10 +1,10 @@
 import React from "react";
 import SignedImage from "../../shared/SignedImage";
 
-const ProductGrid = ({ products, onSelect, searchKey, selectedCategory }) => {
-  const filteredProducts = products
-    .filter(p => p.productName.toLowerCase().includes(searchKey.toLowerCase()))
-    .filter(p => selectedCategory ? p.category.categoryName === selectedCategory : true);
+const ProductGrid = ({ products, onSelect, selectedCategory }) => {
+  const filteredProducts = selectedCategory
+    ? products.filter(p => p.category.categoryName === selectedCategory)
+    : products;
 
   return (
     <div className="product-section">
